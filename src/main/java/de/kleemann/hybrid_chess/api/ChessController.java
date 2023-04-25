@@ -1,49 +1,135 @@
 package de.kleemann.hybrid_chess.api;
 
+import de.kleemann.hybrid_chess.api.models.StartGameModel;
+import de.kleemann.hybrid_chess.core.ChessService;
+import de.kleemann.hybrid_chess.core.game.ChessGame;
+import de.kleemann.hybrid_chess.core.game.Color;
+import de.kleemann.hybrid_chess.core.game.GameState;
+import de.kleemann.hybrid_chess.core.game.Player;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/game")
-public class ChessController {
+class ChessController {
 
-    @GetMapping("/")
-    public ResponseEntity<String> getInfo() {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
+    private final ChessService chessService;
+
+    ChessController(ChessService chessService) {
+        this.chessService = chessService;
     }
 
+    @GetMapping("")
+    public ResponseEntity<String> getInfo() {
+        return new ResponseEntity<>("Called API /api/game", HttpStatus.OK);
+    }
+
+    /**
+     * {
+     *   "gameState" : RUNNING,
+     *   "whosTurn" : white,
+     *   "pieces" : [
+     *     {
+     *       "piece" : "pawn",
+     *       "color" : "white",
+     *       "position" : "a2"
+     *     },
+     *     {
+     *       "piece" : "pawn",
+     *       "color" : "white",
+     *       "position" : "b2"
+     *     }
+     *   ]
+     * }
+     * @return
+     */
     @GetMapping("/board")
     public ResponseEntity<String> getBoard() {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
+        return new ResponseEntity<>("Called API /api/game/board", HttpStatus.OK);
     }
 
-    @PostMapping("/create") // oder /start
-    public ResponseEntity<String> createGame() {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
+    /**
+     * Parameter:
+     * {
+     *   "time" : 10,
+     *   "startColor" : white,
+     *   "player1" : "Frontend",
+     *   "player2" : "Raspberry Pi"
+     * }
+     * @return
+     */
+    @PostMapping("/create")
+    public ResponseEntity<String> createGame(@RequestBody StartGameModel startGameModel) {
+        if(startGameModel == null) {
+            throw new IllegalArgumentException("startGameModel must not be empty.");
+        }
+        ChessGame chessGame = chessService.createGame();
+        chessGame.setGameState(GameState.RUNNING);
+        Player playerOne = new Player(startGameModel.getPlayerOne(), startGameModel.getColorPlayerOne());
+        Player playerTwo = new Player(startGameModel.getPlayerTwo(), startGameModel.getColorPlayerTwo());
+        chessGame.setPlayers(new Player[]{playerOne, playerTwo});
+        chessGame.setWhoIsPlaying(startGameModel.getStartColor() == Color.BLACK
+                ? Arrays.stream(chessGame.getPlayers()).filter(player -> player.getColor() == Color.BLACK).findFirst().get()
+                : Arrays.stream(chessGame.getPlayers()).filter(player -> player.getColor() == Color.WHITE).findFirst().get());
+        //ChessGame persistedChessGame = chessService.persistGame(chessGame);
+        return new ResponseEntity<>("Called API /api/game/create\n" + startGameModel.toString() + "\n" + chessGame.toString(), HttpStatus.OK);
     }
 
     @PostMapping("/reset") // oder /restart oder /stop
     public ResponseEntity<String> reset() {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
+        return new ResponseEntity<>("Called API /api/game/reset", HttpStatus.OK);
     }
 
+    /**
+     * {
+     *     "sourcePiece" :  {
+     *       "piece" : "pawn",
+     *       "color" : "white",
+     *       "position" : "b2"
+     *     },
+     *     "destPosition" : "c2"
+     * }
+     * @return
+     */
     @PostMapping("/move")
     public ResponseEntity<String> move() {
+        return new ResponseEntity<>("Called API /api/game/move", HttpStatus.OK);
+    }
+
+    /**
+     * [
+     *   {
+     *     "id" : 1,
+     *     "sourcePiece" :  {
+     *       "piece" : "pawn",
+     *       "color" : "white",
+     *       "position" : "b2"
+     *     },
+     *     "destPosition" : "c2"
+     *   },
+     *   {
+     *     "id" : 2,
+     *     "sourcePiece" :  {
+     *       "piece" : "pawn",
+     *       "color" : "white",
+     *       "position" : "c2"
+     *     },
+     *     "destPosition" : "d2"
+     *   }
+     * ]
+     * @return
+     */
+    @GetMapping("/history")
+    public ResponseEntity<String> getHistory() {
         System.err.println("[HybridChess] Called API /api/game --> greeting()");
         return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
     }
 
-    @GetMapping("/history")
-    public ResponseEntity<String> getHistory() {
+    @GetMapping("/history/{gameId}")
+    public ResponseEntity<String> getHistory(@PathVariable(value = "gameId") long gameId) {
         System.err.println("[HybridChess] Called API /api/game --> greeting()");
         return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
     }

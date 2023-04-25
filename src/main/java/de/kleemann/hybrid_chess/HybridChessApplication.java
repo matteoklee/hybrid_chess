@@ -16,7 +16,7 @@ public class HybridChessApplication {
 
     @RequestMapping("/")
     public String greeting() {
-        return "Backend successfully deployed.";
+        return "Backend successfully started.";
     }
 
 }
