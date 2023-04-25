@@ -42,10 +42,6 @@ public class ChessBoard {
         return true;
     }
 
-    /**
-     *
-     * @return
-     */
     public Position[][] getBoard() {
         return board;
     }
