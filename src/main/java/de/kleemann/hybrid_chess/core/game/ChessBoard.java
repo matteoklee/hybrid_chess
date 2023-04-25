@@ -42,7 +42,7 @@ public class ChessBoard {
         return true;
     }
 
-    //Test
+
     public Position[][] getBoard() {
         return board;
     }
