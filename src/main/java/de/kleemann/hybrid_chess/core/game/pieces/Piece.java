@@ -1,8 +1,9 @@
 package de.kleemann.hybrid_chess.core.game.pieces;
 
 import de.kleemann.hybrid_chess.core.game.Color;
+import de.kleemann.hybrid_chess.core.game.Position;
 
-public class Piece {
+public abstract class Piece {
 
     private final Color color;
 
@@ -13,4 +14,9 @@ public class Piece {
     public Color getColor() {
         return color;
     }
+
+    public boolean move(Position newPosition) {
+        return false;
+    }
+
 }
