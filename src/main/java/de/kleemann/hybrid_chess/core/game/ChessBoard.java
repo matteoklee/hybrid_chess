@@ -7,9 +7,8 @@ public class ChessBoard {
 
     private Position[][] board;
 
-
-    public static int DEFAULT_ROWS = 8;
-    public static int DEFAULT_COLUMNS = 8;
+    public static final int DEFAULT_ROWS = 8;
+    public static final int DEFAULT_COLUMNS = 8;
 
     public ChessBoard() {
         this(DEFAULT_ROWS, DEFAULT_COLUMNS);
@@ -19,6 +18,13 @@ public class ChessBoard {
         if(rows <= 0 ||  columns <= 0) throw new IllegalArgumentException("rows and columns must be greater than 0.");
         this.rows = rows;
         this.columns = columns;
+        this.board = new Position[rows][columns];
+
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                this.board[i][j] = new Position(i, j);
+            }
+        }
     }
 
     public int getRows() {
