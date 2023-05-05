@@ -8,10 +8,15 @@ public class Position {
     private final int x;
     private final int y;
 
-    public Position(int x, int y, Piece piece) {
+    /**
+     * note: first parameter is y (row) NOT x (column)!
+     *
+     * @param y
+     * @param x
+     */
+    public Position(int y, int x) {
         this.x = x;
         this.y = y;
-        this.piece = piece;
     }
 
     public int getX() {
@@ -28,6 +33,10 @@ public class Position {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+
+    public void removePiece() {
+        this.piece = null;
     }
 
     public boolean isOccupied() {
