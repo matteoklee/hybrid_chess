@@ -11,22 +11,26 @@ public abstract class Piece {
     private final Color color;
     private Position position;
 
-    public Piece(Color color) {
+    public Piece(Color color, Position position) {
         this.color = color;
+        this.position = position;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public boolean move(ChessBoard chessBoard, Position newPosition) {
+    public boolean move(ChessBoard chessBoard, int y, int x) {
         List<Position> legalMoves = getLegalMoves(chessBoard);
         Position[][] board = chessBoard.getBoard();
+        Position newPosition = board[y][x];
 
         for(Position legal : legalMoves) {
             if(legal.getX() == newPosition.getX() && legal.getY() == newPosition.getY()) {
+                board[this.getPosition().getY()][this.getPosition().getX()].removePiece();
+
                 this.setPosition(newPosition);
-                board[newPosition.getY()][newPosition.getX()].setPiece(this);
+                this.getPosition().setPiece(this);
                 return true;
             }
         }
@@ -41,7 +45,5 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public List<Position> getLegalMoves(ChessBoard chessBoard) {
-        return null;
-    }
+    public abstract List<Position> getLegalMoves(ChessBoard chessBoard);
 }
