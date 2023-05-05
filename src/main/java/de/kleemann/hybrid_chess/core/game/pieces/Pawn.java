@@ -11,14 +11,14 @@ public class Pawn extends Piece {
 
     private boolean wasMoved;
 
-    public Pawn(Color color) {
-        super(color);
+    public Pawn(Color color, Position position) {
+        super(color, position);
         wasMoved = false;
     }
 
     @Override
-    public boolean move(ChessBoard chessBoard, Position newPosition) {
-        boolean moved = super.move(chessBoard, newPosition);
+    public boolean move(ChessBoard chessBoard, int y, int x) {
+        boolean moved = super.move(chessBoard, y, x);
         if(moved) wasMoved = true;
 
         return moved;
