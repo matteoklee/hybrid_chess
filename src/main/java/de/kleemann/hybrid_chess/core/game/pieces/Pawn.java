@@ -9,23 +9,78 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-    private boolean wasMoved = false;
+    private boolean wasMoved;
 
     public Pawn(Color color) {
         super(color);
+        wasMoved = false;
     }
 
     @Override
-    public boolean move(Position newPosition) {
-        wasMoved = true;
-        // TODO
-        return false;
+    public boolean move(ChessBoard chessBoard, Position newPosition) {
+        boolean moved = super.move(chessBoard, newPosition);
+        if(moved) wasMoved = true;
+
+        return moved;
     }
 
+    // Weiß unten; schwarz oben
+    @Override
     public List<Position> getLegalMoves(ChessBoard chessBoard) {
         LinkedList<Position> legalMoves = new LinkedList<>();
         Position[][] board = chessBoard.getBoard();
-        // TODO
+
+        int y = this.getPosition().getY();
+        int x = this.getPosition().getX();
+
+        if(this.getColor() == Color.WHITE) {
+            if(y-1 >= 0 && !board[y-1][x].isOccupied()) {
+                legalMoves.add(board[y-1][x]); // Weißer Bauer ein Feld nach oben
+            }
+
+            if(!wasMoved) {
+                if(!board[y-2][x].isOccupied()) {
+                    legalMoves.add(board[y-2][x]); // Erster Zug 2 Felder nach oben
+                }
+            }
+
+            if(y-1 >= 0 && x+1 < chessBoard.getColumns()) {
+                if(board[y-1][x+1].isOccupiedAndOpponent(this)) {
+                    legalMoves.add(board[y-1][x+1]); // Über Kreuz nach rechts schlagen
+                }
+            }
+
+            if(y-1 >= 0 && x-1 < chessBoard.getColumns()) {
+                if(board[y-1][x-1].isOccupiedAndOpponent(this)) {
+                    legalMoves.add(board[y-1][x-1]); // Über Kreuz nach links schlagen
+                }
+            }
+        }
+
+        if(this.getColor() == Color.BLACK) {
+            if(y+1 < chessBoard.getColumns() && !board[y+1][x].isOccupied()) {
+                legalMoves.add(board[y+1][x]); // Schwarzer Bauer ein Feld nach unten
+            }
+
+            if(!wasMoved) {
+                if(!board[y+2][x].isOccupied()) {
+                    legalMoves.add(board[y+2][x]); // Erster Zug 2 Felder nach unten
+                }
+            }
+
+            if(y+1 < chessBoard.getRows() && x+1 < chessBoard.getColumns()) {
+                if(board[y+1][x+1].isOccupiedAndOpponent(this)) {
+                    legalMoves.add(board[y+1][x+1]); // Über Kreuz nach rechts schlagen
+                }
+            }
+
+            if(y+1 < chessBoard.getRows() && x-1 >= 0) {
+                if(board[y+1][x-1].isOccupiedAndOpponent(this)) {
+                    legalMoves.add(board[y+1][x-1]); // Über Kreuz nach links schlagen
+                }
+            }
+        }
+
         return legalMoves;
     }
 }
