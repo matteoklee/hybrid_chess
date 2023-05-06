@@ -97,6 +97,64 @@ public abstract class Piece {
         return legalMoves;
     }
 
+    public List<Position> getVerticalAndHorizontalMoves(ChessBoard chessBoard) {
+        LinkedList<Position> legalMoves = new LinkedList<>();
+        Position[][] board = chessBoard.getBoard();
+
+        int y = this.getPosition().getY();
+        int x = this.getPosition().getX();
+
+        // oben
+        for(int i = -1; y+i >= 0; i--) {
+           if(board[y+i][x].isOccupied()) {
+               if(board[y+i][x].isOpponent(this)) {
+                   legalMoves.add(board[y+i][x]);
+                   break;
+               }
+               break;
+           }
+            legalMoves.add(board[y+i][x]);
+        }
+
+        // unten
+        for(int i = 1; y+i < chessBoard.getRows(); i++) {
+            if(board[y+i][x].isOccupied()) {
+                if(board[y+i][x].isOpponent(this)) {
+                    legalMoves.add(board[y+i][x]);
+                    break;
+                }
+                break;
+            }
+            legalMoves.add(board[y+i][x]);
+        }
+
+        // links
+        for(int i = -1; x+i >= 0; i--) {
+            if(board[y][x+i].isOccupied()) {
+                if(board[y][x+i].isOpponent(this)) {
+                    legalMoves.add(board[y][x+i]);
+                    break;
+                }
+                break;
+            }
+            legalMoves.add(board[y][x+i]);
+        }
+
+        // rechts
+        for(int i = 1; x+i < chessBoard.getColumns(); i++) {
+            if(board[y][x+i].isOccupied()) {
+                if(board[y][x+i].isOpponent(this)) {
+                    legalMoves.add(board[y][x+i]);
+                    break;
+                }
+                break;
+            }
+            legalMoves.add(board[y][x+i]);
+        }
+
+        return legalMoves;
+    }
+
     public Position getPosition() {
         return position;
     }
