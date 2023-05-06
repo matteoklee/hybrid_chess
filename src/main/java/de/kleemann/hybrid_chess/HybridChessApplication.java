@@ -3,6 +3,9 @@ package de.kleemann.hybrid_chess;
 import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.Color;
 import de.kleemann.hybrid_chess.core.game.Position;
+import de.kleemann.hybrid_chess.core.game.pieces.Bishop;
+import de.kleemann.hybrid_chess.core.game.pieces.King;
+import de.kleemann.hybrid_chess.core.game.pieces.Knight;
 import de.kleemann.hybrid_chess.core.game.pieces.Pawn;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,18 +33,36 @@ public class HybridChessApplication {
         ChessBoard chessBoard = new ChessBoard();
         Position[][] board = chessBoard.getBoard();
 
-        Pawn pawn = new Pawn(Color.WHITE, board[7][2]);
-        pawn.getPosition().setPiece(pawn);
+        Pawn pawn = new Pawn(Color.BLACK, board[5][5]);
+        King king = new King(Color.WHITE, board[0][0]);
+        Knight knight = new Knight(Color.WHITE, board[6][4]);
+        Bishop bishop = new Bishop(Color.WHITE, board[3][3]);
 
-        List<Position> legalMoves = pawn.getLegalMoves(chessBoard);
+        printBoard(chessBoard);
+
+        List<Position> legalMoves = bishop.getLegalMoves(chessBoard);
 
         for(Position legal : legalMoves) {
-            System.out.println("y: " + legal.getY() + " x: " + legal.getX());
+            System.out.println("(" + legal.getY() + ", " + legal.getX() + ")");
         }
 
-        boolean b = pawn.move(chessBoard, 6, 3);
+        /*boolean b = pawn.move(chessBoard, 5, 2);
 
         System.out.println(b);
+
+        printBoard(chessBoard);*/
+    }
+
+    private static void printBoard(ChessBoard chessBoard) {
+        Position[][] board = chessBoard.getBoard();
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                String print = board[i][j].isOccupied() ? "B " : ". ";
+                System.out.print(print);
+            }
+            System.out.println(" ");
+        }
     }
 
 }
