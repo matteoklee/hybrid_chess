@@ -20,8 +20,8 @@ public class ChessBoard {
         this.columns = columns;
         this.board = new Position[rows][columns];
 
-        for(int i = 0; i < rows; i++) {
-            for(int j = 0; j < columns; j++) {
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
                 this.board[i][j] = new Position(i, j);
             }
         }
