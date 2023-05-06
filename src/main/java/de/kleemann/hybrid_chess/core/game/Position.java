@@ -47,4 +47,8 @@ public class Position {
         return this.getPiece() != null && this.getPiece().getColor() != piece.getColor();
     }
 
+    public boolean isOpponent(Piece piece) {
+        return this.getPiece().getColor() != piece.getColor();
+    }
+
 }
