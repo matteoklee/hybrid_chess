@@ -14,6 +14,6 @@ public class Rook extends Piece {
 
     @Override
     public List<Position> getLegalMoves(ChessBoard chessBoard) {
-        return null;
+        return super.getVerticalAndHorizontalMoves(chessBoard);
     }
 }
