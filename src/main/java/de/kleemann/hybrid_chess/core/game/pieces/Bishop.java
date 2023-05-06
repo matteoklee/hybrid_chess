@@ -14,6 +14,6 @@ public class Bishop extends Piece {
 
     @Override
     public List<Position> getLegalMoves(ChessBoard chessBoard) {
-        return null;
+        return super.getDiagonalMoves(chessBoard);
     }
 }
