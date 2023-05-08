@@ -22,15 +22,16 @@ public abstract class Piece {
         return color;
     }
 
-    public boolean move(ChessBoard chessBoard, int y, int x) {
-        List<Position> legalMoves = getLegalMoves(chessBoard);
-        Position[][] board = chessBoard.getBoard();
+    public boolean move(int y, int x) {
+        Position[][] board = this.getPosition().getChessBoard().getBoard();
         Position newPosition = board[y][x];
+
+        if(newPosition.isKing()) return false;
+
+        List<Position> legalMoves = getLegalMoves();
 
         for(Position legal : legalMoves) {
             if(legal == newPosition) {
-                if(newPosition.isKing()) return false;
-
                 board[this.getPosition().getY()][this.getPosition().getX()].removePiece();
 
                 this.setPosition(newPosition);
@@ -41,8 +42,9 @@ public abstract class Piece {
         return false;
     }
 
-    public List<Position> getDiagonalMoves(ChessBoard chessBoard) {
+    public List<Position> getDiagonalMoves() {
         LinkedList<Position> legalMoves = new LinkedList<>();
+        ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
         int y = this.getPosition().getY();
@@ -99,8 +101,9 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public List<Position> getVerticalAndHorizontalMoves(ChessBoard chessBoard) {
+    public List<Position> getVerticalAndHorizontalMoves() {
         LinkedList<Position> legalMoves = new LinkedList<>();
+        ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
         int y = this.getPosition().getY();
@@ -165,5 +168,5 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public abstract List<Position> getLegalMoves(ChessBoard chessBoard);
+    public abstract List<Position> getLegalMoves();
 }
