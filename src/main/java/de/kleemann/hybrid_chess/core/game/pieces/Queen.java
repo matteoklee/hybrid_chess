@@ -15,10 +15,8 @@ public class Queen extends Piece {
 
     @Override
     public List<Position> getLegalMoves(ChessBoard chessBoard) {
-        LinkedList<Position> legalMoves = new LinkedList<>();
-        legalMoves.addAll(super.getDiagonalMoves(chessBoard));
+        List<Position> legalMoves = super.getDiagonalMoves(chessBoard);
         legalMoves.addAll(super.getVerticalAndHorizontalMoves(chessBoard));
-
         return legalMoves;
     }
 }
