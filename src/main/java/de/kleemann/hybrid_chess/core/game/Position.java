@@ -1,5 +1,6 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import de.kleemann.hybrid_chess.core.game.pieces.King;
 import de.kleemann.hybrid_chess.core.game.pieces.Piece;
 
 public class Position {
@@ -49,6 +50,10 @@ public class Position {
 
     public boolean isOpponent(Piece piece) {
         return this.getPiece().getColor() != piece.getColor();
+    }
+
+    public boolean isKing() {
+        return this.getPiece() != null && this.getPiece() instanceof King;
     }
 
 }
