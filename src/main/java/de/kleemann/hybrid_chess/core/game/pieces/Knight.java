@@ -14,8 +14,9 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Position> getLegalMoves(ChessBoard chessBoard) {
+    public List<Position> getLegalMoves() {
         LinkedList<Position> legalMoves = new LinkedList<>();
+        ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
         int[] a = {1, 2, 2, 1, -1, -2, -2, -1};

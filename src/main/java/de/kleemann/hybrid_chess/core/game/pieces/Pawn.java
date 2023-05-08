@@ -17,8 +17,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean move(ChessBoard chessBoard, int y, int x) {
-        boolean moved = super.move(chessBoard, y, x);
+    public boolean move(int y, int x) {
+        boolean moved = super.move(y, x);
         if(moved) wasMoved = true;
 
         return moved;
@@ -26,8 +26,9 @@ public class Pawn extends Piece {
 
     // Weiß unten; schwarz oben
     @Override
-    public List<Position> getLegalMoves(ChessBoard chessBoard) {
+    public List<Position> getLegalMoves() {
         LinkedList<Position> legalMoves = new LinkedList<>();
+        ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
         int y = this.getPosition().getY();

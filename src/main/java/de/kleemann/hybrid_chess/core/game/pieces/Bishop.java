@@ -1,6 +1,5 @@
 package de.kleemann.hybrid_chess.core.game.pieces;
 
-import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.Color;
 import de.kleemann.hybrid_chess.core.game.Position;
 
@@ -13,7 +12,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<Position> getLegalMoves(ChessBoard chessBoard) {
-        return super.getDiagonalMoves(chessBoard);
+    public List<Position> getLegalMoves() {
+        return super.getDiagonalMoves();
     }
 }
