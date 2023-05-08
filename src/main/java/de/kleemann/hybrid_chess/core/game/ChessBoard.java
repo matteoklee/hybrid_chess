@@ -2,6 +2,8 @@ package de.kleemann.hybrid_chess.core.game;
 
 public class ChessBoard {
 
+    private ChessGame chessGame;
+
     private int rows;
     private int columns;
 
@@ -22,7 +24,7 @@ public class ChessBoard {
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
-                this.board[i][j] = new Position(i, j);
+                this.board[i][j] = new Position(this, i, j);
             }
         }
     }
@@ -48,6 +50,13 @@ public class ChessBoard {
         return true;
     }
 
+    public void setChessGame(ChessGame chessGame) {
+        this.chessGame = chessGame;
+    }
+
+    public ChessGame getChessGame() {
+        return chessGame;
+    }
 
     public Position[][] getBoard() {
         return board;
