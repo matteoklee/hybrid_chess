@@ -29,6 +29,8 @@ public abstract class Piece {
 
         for(Position legal : legalMoves) {
             if(legal == newPosition) {
+                if(newPosition.isKing()) return false;
+
                 board[this.getPosition().getY()][this.getPosition().getX()].removePiece();
 
                 this.setPosition(newPosition);
