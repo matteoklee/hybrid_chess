@@ -5,19 +5,26 @@ import de.kleemann.hybrid_chess.core.game.pieces.Piece;
 
 public class Position {
 
+    private final ChessBoard chessBoard;
     private Piece piece;
     private final int x;
     private final int y;
 
     /**
-     * note: first parameter is y (row) NOT x (column)!
+     * note: second parameter is y (row) NOT x (column)!
      *
+     * @param chessBoard
      * @param y
      * @param x
      */
-    public Position(int y, int x) {
+    public Position(ChessBoard chessBoard, int y, int x) {
+        this.chessBoard = chessBoard;
         this.x = x;
         this.y = y;
+    }
+
+    public ChessBoard getChessBoard() {
+        return chessBoard;
     }
 
     public int getX() {
