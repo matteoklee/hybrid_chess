@@ -26,25 +26,7 @@ public class ChessBoard {
             for(int j = 0; j < board[i].length; j++) {
                 switch(i) {
                     case 0:
-                        switch(j) {
-                            case 0, 7:
-                                this.board[i][j] = new Position(i, j, new Rook(Color.BLACK, j, i));
-                                break;
-                            case 1, 6:
-                                this.board[i][j] = new Position(i, j, new Knight(Color.BLACK, j, i));
-                                break;
-                            case 2, 5:
-                                this.board[i][j] = new Position(i, j, new Bishop(Color.BLACK, j, i));
-                                break;
-                            case 3:
-                                this.board[i][j] = new Position(i, j, new Queen(Color.BLACK, j, i));
-                                break;
-                            case 4:
-                                this.board[i][j] = new Position(i, j, new King(Color.BLACK, j, i));
-                                break;
-                            default:
-                                break;
-                        }
+                        initialSetup(this.board, Color.WHITE, i, j);
                         break;
                     case 1:
                         this.board[i][j] = new Position(i, j, new Pawn(Color.BLACK, j, i));
@@ -53,31 +35,35 @@ public class ChessBoard {
                         this.board[i][j] = new Position(i, j, new Pawn(Color.WHITE, j, i));
                         break;
                     case 7:
-                        switch(j) {
-                            case 0, 7:
-                                this.board[i][j] = new Position(i, j, new Rook(Color.WHITE, j, i));
-                                break;
-                            case 1, 6:
-                                this.board[i][j] = new Position(i, j, new Knight(Color.WHITE, j, i));
-                                break;
-                            case 2, 5:
-                                this.board[i][j] = new Position(i, j, new Bishop(Color.WHITE, j, i));
-                                break;
-                            case 3:
-                                this.board[i][j] = new Position(i, j, new Queen(Color.WHITE, j, i));
-                                break;
-                            case 4:
-                                this.board[i][j] = new Position(i, j, new King(Color.WHITE, j, i));
-                                break;
-                            default:
-                                break;
-                        }
+                        initialSetup(this.board, Color.WHITE, i, j);
                         break;
                     default:
                         this.board[i][j] = new Position(i, j, null);
                         break;
                 }
             }
+        }
+    }
+
+    private void initialSetup(Position[][] board, Color color, int i, int j) {
+        switch(j) {
+            case 0, 7:
+                board[i][j] = new Position(i, j, new Rook(color, j, i));
+                break;
+            case 1, 6:
+                board[i][j] = new Position(i, j, new Knight(color, j, i));
+                break;
+            case 2, 5:
+                board[i][j] = new Position(i, j, new Bishop(color, j, i));
+                break;
+            case 3:
+                board[i][j] = new Position(i, j, new Queen(color, j, i));
+                break;
+            case 4:
+                board[i][j] = new Position(i, j, new King(color, j, i));
+                break;
+            default:
+                break;
         }
     }
 
