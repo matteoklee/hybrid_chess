@@ -15,9 +15,10 @@ public class Position {
      * @param y
      * @param x
      */
-    public Position(int y, int x) {
+    public Position(int y, int x, Piece piece) {
         this.x = x;
         this.y = y;
+        this.piece = piece;
     }
 
     public int getX() {
@@ -54,6 +55,13 @@ public class Position {
 
     public boolean isKing() {
         return this.getPiece() != null && this.getPiece() instanceof King;
+    }
+
+    public String getPieceName() {
+        if(this.getPiece() == null) {
+            return "XX";
+        }
+        return getPiece().getPieceName();
     }
 
 }

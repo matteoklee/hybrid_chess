@@ -11,8 +11,8 @@ public class Pawn extends Piece {
 
     private boolean wasMoved;
 
-    public Pawn(Color color, Position position) {
-        super(color, position);
+    public Pawn(Color color, int x, int y) {
+        super(color, x, y);
         wasMoved = false;
     }
 
@@ -30,8 +30,8 @@ public class Pawn extends Piece {
         LinkedList<Position> legalMoves = new LinkedList<>();
         Position[][] board = chessBoard.getBoard();
 
-        int y = this.getPosition().getY();
-        int x = this.getPosition().getX();
+        int y = this.getY();
+        int x = this.getX();
 
         if(this.getColor() == Color.WHITE) {
             if(y-1 >= 0 && !board[y-1][x].isOccupied()) {

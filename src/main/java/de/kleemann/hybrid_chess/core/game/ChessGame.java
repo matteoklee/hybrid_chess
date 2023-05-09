@@ -1,7 +1,10 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import org.springframework.data.annotation.Id;
+
 public class ChessGame {
 
+    @Id
     private int id;
     private GameState gameState;
     private Player[] players;

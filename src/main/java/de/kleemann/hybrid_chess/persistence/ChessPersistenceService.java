@@ -1,5 +1,6 @@
 package de.kleemann.hybrid_chess.persistence;
 
+import de.kleemann.hybrid_chess.core.game.ChessGame;
 import de.kleemann.hybrid_chess.persistence.documents.ChessGameDocument;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ public class ChessPersistenceService {
     }
 
     public String test() {
-        return chessRepository.findById(1).get().toString();
+        return chessRepository.findById(0).get().getBoard().printChessBoard();
     }
 
-    public void createChessGame(ChessGameDocument chessGame) {
+    public void createChessGame(ChessGame chessGame) {
         chessRepository.save(chessGame);
     }
 

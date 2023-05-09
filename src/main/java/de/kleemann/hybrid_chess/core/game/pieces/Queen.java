@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    public Queen(Color color, Position position) {
-        super(color, position);
+    public Queen(Color color, int x, int y) {
+        super(color, x, y);
     }
 
     @Override
