@@ -6,6 +6,9 @@ import de.kleemann.hybrid_chess.core.game.ChessGame;
 import de.kleemann.hybrid_chess.core.game.Color;
 import de.kleemann.hybrid_chess.core.game.GameState;
 import de.kleemann.hybrid_chess.core.game.Player;
+import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
+import de.kleemann.hybrid_chess.persistence.ChessRepository;
+import de.kleemann.hybrid_chess.persistence.documents.ChessGameDocument;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +20,18 @@ import java.util.Arrays;
 class ChessController {
 
     private final ChessService chessService;
+    private final ChessPersistenceService chessPersistenceService;
 
-    ChessController(ChessService chessService) {
+    ChessController(ChessService chessService, ChessPersistenceService chessPersistenceService) {
         this.chessService = chessService;
+        this.chessPersistenceService = chessPersistenceService;
     }
 
     @GetMapping("")
     public ResponseEntity<String> getInfo() {
-        return new ResponseEntity<>("Called API /api/game", HttpStatus.OK);
+        ChessGameDocument chessGameDocument = new ChessGameDocument(1, GameState.RUNNING, "BLACK");
+        chessPersistenceService.createChessGame(chessGameDocument);
+        return new ResponseEntity<>("Called API /api/game\n" + chessPersistenceService.test(), HttpStatus.OK);
     }
 
     /**
