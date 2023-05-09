@@ -27,7 +27,6 @@ public class ChessService {
 
     public ChessGame createGame() {
         return new ChessGame();
-        //return null;
     }
     public ChessGame createGame(long id) {
         return null;
