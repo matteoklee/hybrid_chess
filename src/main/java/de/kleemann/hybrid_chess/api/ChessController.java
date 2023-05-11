@@ -2,10 +2,10 @@ package de.kleemann.hybrid_chess.api;
 
 import de.kleemann.hybrid_chess.api.models.StartGameModel;
 import de.kleemann.hybrid_chess.core.ChessService;
-import de.kleemann.hybrid_chess.core.game.ChessGame;
-import de.kleemann.hybrid_chess.core.game.Color;
-import de.kleemann.hybrid_chess.core.game.GameState;
-import de.kleemann.hybrid_chess.core.game.Player;
+import de.kleemann.hybrid_chess.core.game.*;
+import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
+import de.kleemann.hybrid_chess.persistence.ChessRepository;
+import de.kleemann.hybrid_chess.persistence.documents.ChessGameDocument;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,16 @@ import java.util.Arrays;
 class ChessController {
 
     private final ChessService chessService;
+    private final ChessPersistenceService chessPersistenceService;
 
-    ChessController(ChessService chessService) {
+    ChessController(ChessService chessService, ChessPersistenceService chessPersistenceService) {
         this.chessService = chessService;
+        this.chessPersistenceService = chessPersistenceService;
     }
 
     @GetMapping("")
     public ResponseEntity<String> getInfo() {
-        return new ResponseEntity<>("Called API /api/game", HttpStatus.OK);
+        return new ResponseEntity<>("Called API /api/game\n" + chessPersistenceService.test(), HttpStatus.OK);
     }
 
     /**
@@ -74,8 +76,12 @@ class ChessController {
         chessGame.setWhoIsPlaying(startGameModel.getStartColor() == Color.BLACK
                 ? Arrays.stream(chessGame.getPlayers()).filter(player -> player.getColor() == Color.BLACK).findFirst().get()
                 : Arrays.stream(chessGame.getPlayers()).filter(player -> player.getColor() == Color.WHITE).findFirst().get());
+        ChessBoard chessBoard = new ChessBoard();
+        chessGame.setBoard(chessBoard);
+        boolean testMove = chessGame.getBoard().getBoard()[1][4].getPiece().move(chessBoard, 2, 4);
+        chessPersistenceService.createChessGame(chessGame);
         //ChessGame persistedChessGame = chessService.persistGame(chessGame);
-        return new ResponseEntity<>("Called API /api/game/create\n" + startGameModel.toString() + "\n" + chessGame.toString(), HttpStatus.OK);
+        return new ResponseEntity<>("Called API /api/game/create\n" + startGameModel.toString() + "\n" + chessGame.toString() + "\nTestMove Success: " + testMove + "\n" + chessBoard.printChessBoard(), HttpStatus.OK);
     }
 
     @PostMapping("/reset") // oder /restart oder /stop

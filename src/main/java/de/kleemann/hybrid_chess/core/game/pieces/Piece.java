@@ -10,12 +10,13 @@ import java.util.List;
 public abstract class Piece {
 
     private final Color color;
-    private Position position;
+    private int x;
+    private int y;
 
-    public Piece(Color color, Position position) {
+    public Piece(Color color, int x, int y) {
         this.color = color;
-        this.position = position;
-        this.position.setPiece(this);
+        this.x = x;
+        this.y = y;
     }
 
     public Color getColor() {
@@ -32,10 +33,12 @@ public abstract class Piece {
 
         for(Position legal : legalMoves) {
             if(legal == newPosition) {
-                board[this.getPosition().getY()][this.getPosition().getX()].removePiece();
+                board[this.y][this.x].removePiece();
 
-                this.setPosition(newPosition);
-                this.getPosition().setPiece(this);
+                this.x = newPosition.getX();
+                this.y = newPosition.getY();
+                board[y][x].setPiece(this);
+                //this.getPosition().setPiece(this);
                 return true;
             }
         }
@@ -46,9 +49,6 @@ public abstract class Piece {
         LinkedList<Position> legalMoves = new LinkedList<>();
         ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
-
-        int y = this.getPosition().getY();
-        int x = this.getPosition().getX();
 
         // Nord-West-Richtung
         for(int i = -1; y+i >= 0 && x+i >= 0; i--) {
@@ -106,9 +106,6 @@ public abstract class Piece {
         ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
-        int y = this.getPosition().getY();
-        int x = this.getPosition().getX();
-
         // oben
         for(int i = -1; y+i >= 0; i--) {
            if(board[y+i][x].isOccupied()) {
@@ -160,13 +157,17 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public Position getPosition() {
-        return position;
+    public abstract List<Position> getLegalMoves(ChessBoard chessBoard);
+
+    public String getPieceName() {
+        return getClass().getSimpleName().substring(0, 2);
     }
 
-    private void setPosition(Position position) {
-        this.position = position;
+    public int getX() {
+        return x;
     }
 
-    public abstract List<Position> getLegalMoves();
+    public int getY() {
+        return y;
+    }
 }

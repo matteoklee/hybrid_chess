@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Knight extends Piece {
 
-    public Knight(Color color, Position position) {
-        super(color, position);
+    public Knight(Color color, int x, int y) {
+        super(color, x, y);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class Knight extends Piece {
         int[] a = {1, 2, 2, 1, -1, -2, -2, -1};
         int[] o = {2, 1, -1, -2, -2, -1, 1, 2};
 
-        int y = this.getPosition().getY();
-        int x = this.getPosition().getX();
+        int y = this.getY();
+        int x = this.getX();
 
         int num = 0;
         while(num < 8) {

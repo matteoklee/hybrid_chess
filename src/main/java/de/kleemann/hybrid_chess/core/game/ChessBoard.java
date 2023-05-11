@@ -1,5 +1,7 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import de.kleemann.hybrid_chess.core.game.pieces.*;
+
 public class ChessBoard {
 
     private ChessGame chessGame;
@@ -24,8 +26,46 @@ public class ChessBoard {
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
-                this.board[i][j] = new Position(this, i, j);
+                switch(i) {
+                    case 0:
+                        initialSetup(this.board, Color.WHITE, i, j);
+                        break;
+                    case 1:
+                        this.board[i][j] = new Position(i, j, new Pawn(Color.BLACK, j, i));
+                        break;
+                    case 6:
+                        this.board[i][j] = new Position(i, j, new Pawn(Color.WHITE, j, i));
+                        break;
+                    case 7:
+                        initialSetup(this.board, Color.WHITE, i, j);
+                        break;
+                    default:
+                        this.board[i][j] = new Position(i, j, null);
+                        break;
+                }
             }
+        }
+    }
+
+    private void initialSetup(Position[][] board, Color color, int i, int j) {
+        switch(j) {
+            case 0, 7:
+                board[i][j] = new Position(i, j, new Rook(color, j, i));
+                break;
+            case 1, 6:
+                board[i][j] = new Position(i, j, new Knight(color, j, i));
+                break;
+            case 2, 5:
+                board[i][j] = new Position(i, j, new Bishop(color, j, i));
+                break;
+            case 3:
+                board[i][j] = new Position(i, j, new Queen(color, j, i));
+                break;
+            case 4:
+                board[i][j] = new Position(i, j, new King(color, j, i));
+                break;
+            default:
+                break;
         }
     }
 
@@ -50,15 +90,23 @@ public class ChessBoard {
         return true;
     }
 
-    public void setChessGame(ChessGame chessGame) {
-        this.chessGame = chessGame;
-    }
-
-    public ChessGame getChessGame() {
-        return chessGame;
-    }
-
     public Position[][] getBoard() {
         return board;
+    }
+
+    public String printChessBoard() {
+        String result = "\n";
+
+        for(int row = 0; row < rows; row++) {
+            result += "\n";
+            result += "------------------------------------------\n";
+            for(int column = 0; column < columns; column++) {
+                result += "| " + board[row][column].getPieceName() + " ";
+            }
+            result += "|";
+        }
+        result += "\n";
+        result += "------------------------------------------\n";
+        return  result;
     }
 }

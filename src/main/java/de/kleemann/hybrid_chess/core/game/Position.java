@@ -13,14 +13,13 @@ public class Position {
     /**
      * note: second parameter is y (row) NOT x (column)!
      *
-     * @param chessBoard
      * @param y
      * @param x
      */
-    public Position(ChessBoard chessBoard, int y, int x) {
-        this.chessBoard = chessBoard;
+    public Position(int y, int x, Piece piece) {
         this.x = x;
         this.y = y;
+        this.piece = piece;
     }
 
     public ChessBoard getChessBoard() {
@@ -61,6 +60,13 @@ public class Position {
 
     public boolean isKing() {
         return this.getPiece() != null && this.getPiece() instanceof King;
+    }
+
+    public String getPieceName() {
+        if(this.getPiece() == null) {
+            return "XX";
+        }
+        return getPiece().getPieceName();
     }
 
 }
