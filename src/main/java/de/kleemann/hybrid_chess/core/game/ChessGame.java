@@ -21,7 +21,6 @@ public class ChessGame {
         this.players = players;
         this.whoIsPlaying = whoIsPlaying;
         this.board = board;
-        this.getBoard().setChessGame(this);
     }
 
     public int getId() {
