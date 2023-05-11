@@ -14,8 +14,9 @@ public class King extends Piece {
     }
 
     @Override
-    public List<Position> getLegalMoves(ChessBoard chessBoard) {
+    public List<Position> getLegalMoves() {
         LinkedList<Position> legalMoves = new LinkedList<>();
+        ChessBoard chessBoard = this.getPosition().getChessBoard();
         Position[][] board = chessBoard.getBoard();
 
         int y = this.getY();

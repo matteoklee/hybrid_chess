@@ -15,12 +15,13 @@ public class ChessGame {
 
     }
 
-    public ChessGame(int id, GameState gameState, Player[] players, Player whoIsPlaying, ChessBoard board) {
+    public ChessGame(int id, Player[] players, Player whoIsPlaying, ChessBoard board) {
         this.id = id;
-        this.gameState = gameState;
+        this.gameState = GameState.RUNNING;
         this.players = players;
         this.whoIsPlaying = whoIsPlaying;
         this.board = board;
+        this.getBoard().setChessGame(this);
     }
 
     public int getId() {
