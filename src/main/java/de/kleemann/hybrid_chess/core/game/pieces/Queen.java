@@ -1,5 +1,6 @@
 package de.kleemann.hybrid_chess.core.game.pieces;
 
+import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.Color;
 import de.kleemann.hybrid_chess.core.game.Position;
 
@@ -12,9 +13,9 @@ public class Queen extends Piece {
     }
 
     @Override
-    public List<Position> getLegalMoves() {
-        List<Position> legalMoves = super.getDiagonalMoves();
-        legalMoves.addAll(super.getVerticalAndHorizontalMoves());
+    public List<Position> getLegalMoves(ChessBoard chessBoard) {
+        List<Position> legalMoves = super.getDiagonalMoves(chessBoard);
+        legalMoves.addAll(super.getVerticalAndHorizontalMoves(chessBoard));
         return legalMoves;
     }
 }

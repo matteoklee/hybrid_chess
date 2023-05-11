@@ -4,8 +4,6 @@ import de.kleemann.hybrid_chess.core.game.pieces.*;
 
 public class ChessBoard {
 
-    private ChessGame chessGame;
-
     private int rows;
     private int columns;
 
