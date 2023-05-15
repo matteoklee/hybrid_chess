@@ -10,18 +10,56 @@ import java.util.List;
 public class Pawn extends Piece {
 
     private boolean wasMoved;
+    private boolean enPassant;
 
     public Pawn(Color color, int x, int y) {
         super(color, x, y);
         wasMoved = false;
+        enPassant = false;
     }
 
     @Override
     public boolean move(ChessBoard chessBoard, int y, int x) {
+        int oldY = this.getY();
         boolean moved = super.move(chessBoard, y, x);
-        if(moved) wasMoved = true;
+
+        if(moved) {
+            wasMoved = true;
+
+            if(this.getY() == 7 || this.getY() == 0) {
+                promote(chessBoard);
+            }
+
+            if(Math.abs(this.getY() - oldY) == 2) { // Bauer hat sich 2 Felder bewegt
+                Position[][] board = chessBoard.getBoard();
+
+                if(this.getX()-1 >= 0 && board[this.getY()][this.getX()-1].isOccupiedAndOpponent(this)) {
+                    if(board[this.getY()][this.getX()-1].getPiece() instanceof Pawn) {
+                        ((Pawn) board[this.getY()][this.getX()-1].getPiece()).setEnPassant(true);
+                    }
+                }
+
+                if(this.getX()+1 < chessBoard.getColumns() && board[this.getY()][this.getX()+1].isOccupiedAndOpponent(this)) {
+                    if(board[this.getY()][this.getX()+1].getPiece() instanceof Pawn) {
+                        ((Pawn) board[this.getY()][this.getX()+1].getPiece()).setEnPassant(true);
+                    }
+                }
+            }
+        }
 
         return moved;
+    }
+
+    /**
+     * Pawn will automatically promote to a Queen
+     *
+     * @param chessBoard
+     */
+    private void promote(ChessBoard chessBoard) {
+        Position[][] board = chessBoard.getBoard();
+
+        board[this.getY()][this.getX()].removePiece();
+        board[this.getY()][this.getX()].setPiece(new Queen(this.getColor(), this.getX(), this.getY()));
     }
 
     // Weiß unten; schwarz oben
@@ -82,5 +120,26 @@ public class Pawn extends Piece {
         }
 
         return legalMoves;
+    }
+
+    public boolean checkAndExecuteEnPassant(ChessBoard chessBoard, Position newPosition) {
+        Position[][] board = chessBoard.getBoard();
+
+        if(this.getEnPassant()) {
+            if (newPosition.getY() - 1 >= 0 && board[newPosition.getY() - 1][newPosition.getX()].isOccupiedAndOpponent(this)) {
+                if (board[newPosition.getY() - 1][newPosition.getX()].getPiece() instanceof Pawn) {
+                    // TODO
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean getEnPassant() {
+        return enPassant;
+    }
+
+    public void setEnPassant(boolean enPassant) {
+        this.enPassant = enPassant;
     }
 }
