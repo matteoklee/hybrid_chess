@@ -29,6 +29,13 @@ public abstract class Piece {
 
         if(newPosition.isKing()) return false;
 
+        // En Passant
+        if(this instanceof Pawn) {
+            boolean enPassant = ((Pawn) this).checkAndExecuteEnPassant(chessBoard, newPosition);
+        }
+
+        chessBoard.unsetAllPawnsEnPassant();
+
         List<Position> legalMoves = getLegalMoves(chessBoard);
 
         for(Position legal : legalMoves) {
