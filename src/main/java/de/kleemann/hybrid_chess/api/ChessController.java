@@ -32,30 +32,6 @@ class ChessController {
     }
 
     /**
-     * {
-     *   "gameState" : RUNNING,
-     *   "whosTurn" : white,
-     *   "pieces" : [
-     *     {
-     *       "piece" : "pawn",
-     *       "color" : "white",
-     *       "position" : "a2"
-     *     },
-     *     {
-     *       "piece" : "pawn",
-     *       "color" : "white",
-     *       "position" : "b2"
-     *     }
-     *   ]
-     * }
-     * @return
-     */
-    @GetMapping("/board")
-    public ResponseEntity<String> getBoard() {
-        return new ResponseEntity<>("Called API /api/game/board", HttpStatus.OK);
-    }
-
-    /**
      * Parameter:
      * {
      *   "time" : 10,
@@ -70,10 +46,6 @@ class ChessController {
         if(createGameModel == null) {
             throw new IllegalArgumentException("createGameModel must not be empty.");
         }
-        //ChessGame chessGame = chessService.createGame(createGameModel);
-        //chessPersistenceService.createChessGame(chessGame);
-        //ChessGame persistedChessGame = chessService.persistGame(chessGame);
-        //return new ResponseEntity<>("Called API /api/game/create\n" + createGameModel.toString() + "\n" + chessGame.toString() + "\n" + chessGame.getBoard().printChessBoard(), HttpStatus.OK);
         final ChessGame chessGame = getChessGameFromModel(null, createGameModel);
         return ResponseEntity.ok(chessGame);
     }
@@ -119,6 +91,28 @@ class ChessController {
         return chessGame;
     }
 
+    /**
+     * Parameter:
+     * {
+     *     "id" : 2,
+     *     "whoIsPlaying" : {
+     *         "name": "One"
+     *       },
+     *       "move" : {
+     *         "previousPos": {
+     *           "x": 4,
+     *           "y": 6
+     *         },
+     *         "newPos": {
+     *           "x": 4,
+     *           "y": 3
+     *         }
+     *       }
+     * }
+     * @param chessGameId
+     * @param updateGameModel
+     * @return
+     */
     @PutMapping("/games/{id}")
     public ResponseEntity<ChessGame> updateChessGame(@PathVariable(value = "id") int chessGameId,
                                                      @RequestBody UpdateGameModel updateGameModel) {
@@ -173,57 +167,6 @@ class ChessController {
     @PostMapping("/reset") // oder /restart oder /stop
     public ResponseEntity<String> reset() {
         return new ResponseEntity<>("Called API /api/game/reset", HttpStatus.OK);
-    }
-
-    /**
-     * {
-     *     "sourcePiece" :  {
-     *       "piece" : "pawn",
-     *       "color" : "white",
-     *       "position" : "b2"
-     *     },
-     *     "destPosition" : "c2"
-     * }
-     * @return
-     */
-    @PostMapping("/move")
-    public ResponseEntity<String> move() {
-        return new ResponseEntity<>("Called API /api/game/move", HttpStatus.OK);
-    }
-
-    /**
-     * [
-     *   {
-     *     "id" : 1,
-     *     "sourcePiece" :  {
-     *       "piece" : "pawn",
-     *       "color" : "white",
-     *       "position" : "b2"
-     *     },
-     *     "destPosition" : "c2"
-     *   },
-     *   {
-     *     "id" : 2,
-     *     "sourcePiece" :  {
-     *       "piece" : "pawn",
-     *       "color" : "white",
-     *       "position" : "c2"
-     *     },
-     *     "destPosition" : "d2"
-     *   }
-     * ]
-     * @return
-     */
-    @GetMapping("/history")
-    public ResponseEntity<String> getHistory() {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
-    }
-
-    @GetMapping("/history/{gameId}")
-    public ResponseEntity<String> getHistory(@PathVariable(value = "gameId") long gameId) {
-        System.err.println("[HybridChess] Called API /api/game --> greeting()");
-        return new ResponseEntity<>("Backend successfully started.", HttpStatus.OK);
     }
 
 }

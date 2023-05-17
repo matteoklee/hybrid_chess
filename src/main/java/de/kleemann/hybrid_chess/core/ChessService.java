@@ -20,15 +20,6 @@ public class ChessService {
         this.chessPersistenceService = chessPersistenceService;
     }
 
-    public List<Move> getAllMovesFromGame(long gameId) {
-        return null;
-    }
-    public Move findMoveFromGame(long gameId, long moveId) {
-        return null;
-    }
-
-    //**********************************************************************
-
     public ChessGame createChessGameEntity() {
         return new ChessGame(chessPersistenceService.createChessGameEntity());
     }
@@ -71,41 +62,6 @@ public class ChessService {
 
     public List<ChessGame> findAllChessGames() {
         return chessPersistenceService.findAll().stream().map(ChessGame::new).collect(Collectors.toList());
-    }
-
-    //**********************************************************************
-
-    public ChessGame updateGame(int gameId, Move move) {
-        return null;
-    }
-
-    public ChessGame updateGame(ChessGame chessGame) {
-        return null;
-    }
-
-    public ChessGame createGame(long id) {
-        return null;
-    }
-    public ChessGame persistGame(ChessGame game) {
-        return null;
-    }
-    public ChessGame findGameById(Long id) {
-        return null;
-    }
-    public List<ChessGame> findAllGames() {
-        return null;
-    }
-
-    //**********************************************************************
-
-    public Move createMove() {
-        return null;
-    }
-    public Move createMove(long id) {
-        return null;
-    }
-    public Move persistMove(Move move) {
-        return null;
     }
 
 }
