@@ -39,6 +39,7 @@ public abstract class Piece {
                 this.y = newPosition.getY();
                 board[y][x].setPiece(this);
                 //this.getPosition().setPiece(this);
+                chessBoard.setBoard(board);
                 return true;
             }
         }

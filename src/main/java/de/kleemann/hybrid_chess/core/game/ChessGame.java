@@ -1,57 +1,39 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.data.annotation.Id;
+
+import javax.sound.midi.SysexMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChessGame {
 
-    @Id
-    private int id;
-    private GameState gameState;
-    private Player[] players;
-    private Player whoIsPlaying;
     private ChessBoard board;
+    private final ChessGameEntity chessGameEntity;
 
-    public ChessGame() {
 
-    }
-
-    public ChessGame(int id, Player[] players, Player whoIsPlaying, ChessBoard board) {
-        this.id = id;
-        this.gameState = GameState.RUNNING;
-        this.players = players;
-        this.whoIsPlaying = whoIsPlaying;
-        this.board = board;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public Player getWhoIsPlaying() {
-        return whoIsPlaying;
-    }
-
-    public void setWhoIsPlaying(Player whoIsPlaying) {
-        this.whoIsPlaying = whoIsPlaying;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Player[] players) {
-        this.players = players;
+    public ChessGame(ChessGameEntity chessGameEntity) {
+        if(chessGameEntity == null) {
+            throw new IllegalArgumentException("chessGameEntity may not be null.");
+        }
+        this.chessGameEntity = chessGameEntity;
     }
 
     public ChessBoard getBoard() {
+        if(board == null) {
+            board = new ChessBoard();
+        }
+        return board;
+    }
+
+    public ChessBoard updateChessBoard() {
+        if(chessGameEntity.getMoves() == null) return board;
+        //TODO: Anhand der Moves Positionen der Figuren bestimmen und ChessBoard Objekt erstellen
+        for(Move move : chessGameEntity.getMoves()) {
+            boolean validMove = getBoard().getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(board, move.getNewPos().getY(), move.getNewPos().getX());
+            System.err.println("CHESS BOARD HANDLE MOVE: " + validMove);
+        }
         return board;
     }
 
@@ -59,9 +41,54 @@ public class ChessGame {
         this.board = board;
     }
 
+    public ChessGameEntity getChessGameEntity() {
+        return chessGameEntity;
+    }
+
+
+    public int getId() {
+        return this.chessGameEntity.getId();
+    }
+
+    public void setId(int id) {
+        this.chessGameEntity.setId(id);
+    }
+
+    public GameState getGameState() {
+        return this.chessGameEntity.getGameState();
+    }
+
+    public void setGameState(GameState gameState) {
+        this.chessGameEntity.setGameState(gameState);
+    }
+
+    public Player getWhoIsPlaying() {
+        return this.chessGameEntity.getWhoIsPlaying();
+    }
+
+    public void setWhoIsPlaying(Player whoIsPlaying) {
+        this.chessGameEntity.setWhoIsPlaying(whoIsPlaying);
+    }
+
+    public Player[] getPlayers() {
+        return this.chessGameEntity.getPlayers();
+    }
+
+    public void setPlayers(Player[] players) {
+        this.chessGameEntity.setPlayers(players);
+    }
+
+    public List<Move> getMoves() {
+        return this.chessGameEntity.getMoves();
+    }
+
+    public void setMoves(List<Move> moves) {
+        this.chessGameEntity.setMoves(moves);
+    }
+
     @Override
     public String toString() {
-        return "ChessGame{\nid: " + id + ",\ngamestate: " + gameState + ",\nplayer1: " + players[0].toString()
-                + ",\nplayer2: " + players[1].toString() + ",\nwhoIsPlaying: " + whoIsPlaying.toString() + "\n}";
+        return "ChessGame{\nid: " + getId() + ",\ngamestate: " + getGameState() + ",\nplayer1: " + getPlayers()[0].toString()
+                + ",\nplayer2: " + getPlayers()[1].toString() + ",\nwhoIsPlaying: " + getWhoIsPlaying().toString() + "\n}";
     }
 }
