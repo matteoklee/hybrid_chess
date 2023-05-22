@@ -26,7 +26,7 @@ public class ChessBoard {
             for(int j = 0; j < board[i].length; j++) {
                 switch(i) {
                     case 0:
-                        initialSetup(this.board, Color.WHITE, i, j);
+                        initialSetup(this.board, Color.BLACK, i, j);
                         break;
                     case 1:
                         this.board[i][j] = new Position(i, j, new Pawn(Color.BLACK, j, i));
@@ -108,6 +108,11 @@ public class ChessBoard {
         return  result;
     }
 
+
+    public void setBoard(Position[][] board) {
+        this.board = board;
+    }
+
     public void unsetAllPawnsEnPassant() {
         Position[][] board = this.getBoard();
 
@@ -119,5 +124,6 @@ public class ChessBoard {
             }
         }
     }
+
 
 }
