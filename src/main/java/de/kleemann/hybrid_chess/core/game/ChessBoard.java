@@ -108,7 +108,22 @@ public class ChessBoard {
         return  result;
     }
 
+
     public void setBoard(Position[][] board) {
         this.board = board;
     }
+
+    public void unsetAllPawnsEnPassant() {
+        Position[][] board = this.getBoard();
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                if(board[i][j].getPiece() instanceof Pawn) {
+                    ((Pawn) board[i][j].getPiece()).setEnPassant(false);
+                }
+            }
+        }
+    }
+
+
 }
