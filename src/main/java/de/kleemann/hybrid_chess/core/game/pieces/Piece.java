@@ -30,11 +30,14 @@ public abstract class Piece {
         if(newPosition.isKing()) return false;
 
         // En Passant
+        boolean enPassant = false;
         if(this instanceof Pawn) {
-            boolean enPassant = ((Pawn) this).checkAndExecuteEnPassant(chessBoard, newPosition);
+            enPassant = ((Pawn) this).checkAndExecuteEnPassant(chessBoard, newPosition);
         }
 
         chessBoard.unsetAllPawnsEnPassant();
+
+        if(enPassant) return true;
 
         List<Position> legalMoves = getLegalMoves(chessBoard);
 
@@ -175,5 +178,13 @@ public abstract class Piece {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
