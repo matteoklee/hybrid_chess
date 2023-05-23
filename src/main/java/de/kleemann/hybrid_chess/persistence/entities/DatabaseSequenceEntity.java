@@ -1,20 +1,18 @@
-package de.kleemann.hybrid_chess.persistence;
+package de.kleemann.hybrid_chess.persistence.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.xml.crypto.Data;
-
 @Document
-public class DatabaseSequence {
+public class DatabaseSequenceEntity {
 
     @Id
     private String id;
 
     private int seq;
 
-    public DatabaseSequence() {}
-    public DatabaseSequence(String id, int seq) {
+    public DatabaseSequenceEntity() {}
+    public DatabaseSequenceEntity(String id, int seq) {
         this.id = id;
         this.seq = seq;
     }

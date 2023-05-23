@@ -1,7 +1,7 @@
 package de.kleemann.hybrid_chess.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.kleemann.hybrid_chess.core.game.Color;
+import de.kleemann.hybrid_chess.core.game.utils.Color;
 
 public class CreateGameModel {
 

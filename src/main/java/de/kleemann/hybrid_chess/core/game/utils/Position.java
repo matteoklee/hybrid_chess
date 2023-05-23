@@ -1,4 +1,4 @@
-package de.kleemann.hybrid_chess.core.game;
+package de.kleemann.hybrid_chess.core.game.utils;
 
 import de.kleemann.hybrid_chess.core.game.pieces.King;
 import de.kleemann.hybrid_chess.core.game.pieces.Piece;

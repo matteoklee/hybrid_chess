@@ -1,12 +1,10 @@
 package de.kleemann.hybrid_chess.core;
 
-import de.kleemann.hybrid_chess.api.models.CreateGameModel;
 import de.kleemann.hybrid_chess.core.game.*;
 import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

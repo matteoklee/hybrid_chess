@@ -1,10 +1,10 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import de.kleemann.hybrid_chess.core.game.utils.GameState;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
-import org.springframework.data.annotation.Id;
 
-import javax.sound.midi.SysexMessage;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChessGame {

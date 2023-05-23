@@ -1,12 +1,8 @@
 package de.kleemann.hybrid_chess.persistence;
 
-import de.kleemann.hybrid_chess.core.game.ChessGame;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
-import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

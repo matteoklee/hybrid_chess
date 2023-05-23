@@ -1,15 +1,12 @@
 package de.kleemann.hybrid_chess.persistence.entities;
 
-import de.kleemann.hybrid_chess.core.game.ChessBoard;
-import de.kleemann.hybrid_chess.core.game.GameState;
-import de.kleemann.hybrid_chess.core.game.Move;
-import de.kleemann.hybrid_chess.core.game.Player;
+import de.kleemann.hybrid_chess.core.game.utils.GameState;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.annotation.processing.Generated;
 import java.util.List;
 
 @Document

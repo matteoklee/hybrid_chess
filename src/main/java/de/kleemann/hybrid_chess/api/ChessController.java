@@ -4,8 +4,11 @@ import de.kleemann.hybrid_chess.api.models.CreateGameModel;
 import de.kleemann.hybrid_chess.api.models.UpdateGameModel;
 import de.kleemann.hybrid_chess.core.ChessService;
 import de.kleemann.hybrid_chess.core.game.*;
+import de.kleemann.hybrid_chess.core.game.utils.Color;
+import de.kleemann.hybrid_chess.core.game.utils.GameState;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
-import org.springframework.cglib.core.ClassLoaderAwareGeneratorStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +37,11 @@ class ChessController {
     /**
      * Parameter:
      * {
-     *   "time" : 10,
-     *   "startColor" : white,
-     *   "player1" : "Frontend",
-     *   "player2" : "Raspberry Pi"
+     *     "startColor" : "BLACK",
+     *     "playerOne" : "testPlayerOne",
+     *     "colorPlayerOne": "WHITE",
+     *     "playerTwo" : "testPlayerTwo",
+     *     "colorPlayerTwo": "BLACK"
      * }
      * @return
      */
