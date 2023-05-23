@@ -18,10 +18,15 @@ public class King extends Piece {
 
     @Override
     public boolean move(ChessBoard chessBoard, int y, int x) {
+        int oldX = this.getX();
         boolean moved = super.move(chessBoard, y, x);
 
         if(moved) {
             wasMoved = true;
+
+            if(Math.abs(this.getX() - oldX) == 2) { // König hat sich 2 Felder bewegt -> Rochade
+                this.playCastling(chessBoard);
+            }
         }
         return moved;
     }
@@ -179,6 +184,56 @@ public class King extends Piece {
             return true;
         }
         return false;
+    }
+
+    private void playCastling(ChessBoard chessBoard) {
+        Position[][] board = chessBoard.getBoard();
+
+        if(this.getColor() == Color.WHITE) {
+            if(this.getX() == 6 && this.getY() == 7) { // Castling kingside
+                Piece piece = board[7][7].getPiece(); // Rook
+
+                board[7][7].removePiece();
+                piece.setX(5);
+                piece.setY(7);
+                board[7][5].setPiece(piece);
+
+                return;
+            }
+
+            if(this.getX() == 2 && this.getY() == 7) { // Castling queenside
+                Piece piece = board[7][0].getPiece(); // Rook
+
+                board[7][0].removePiece();
+                piece.setX(3);
+                piece.setY(7);
+                board[7][3].setPiece(piece);
+
+                return;
+            }
+        }
+
+        if(this.getColor() == Color.BLACK) {
+            if(this.getX() == 6 && this.getY() == 0) { // Castling kingside
+                Piece piece = board[0][7].getPiece(); // Rook
+
+                board[0][7].removePiece();
+                piece.setX(5);
+                piece.setY(0);
+                board[0][5].setPiece(piece);
+
+                return;
+            }
+
+            if(this.getX() == 2 && this.getY() == 0) { // Castling queenside
+                Piece piece = board[0][0].getPiece(); // Rook
+
+                board[0][0].removePiece();
+                piece.setX(3);
+                piece.setY(0);
+                board[0][3].setPiece(piece);
+            }
+        }
     }
 
     public boolean wasMoved() {
