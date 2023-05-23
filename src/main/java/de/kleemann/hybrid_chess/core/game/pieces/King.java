@@ -81,10 +81,6 @@ public class King extends Piece {
         Position[][] board = chessBoard.getBoard();
 
         if(this.getColor() == Color.WHITE) {
-            if(!board[7][7].isOccupied()) {
-                return false;
-            }
-
             if(!(board[7][7].getPiece() instanceof Rook)) {
                 return false;
             }
@@ -104,10 +100,6 @@ public class King extends Piece {
         }
 
         if(this.getColor() == Color.BLACK) {
-            if(!board[0][7].isOccupied()) {
-                return false;
-            }
-
             if(!(board[0][7].getPiece() instanceof Rook)) {
                 return false;
             }
@@ -139,10 +131,6 @@ public class King extends Piece {
         Position[][] board = chessBoard.getBoard();
 
         if(this.getColor() == Color.WHITE) {
-            if(!board[7][0].isOccupied()) {
-                return false;
-            }
-
             if(!(board[7][0].getPiece() instanceof Rook)) {
                 return false;
             }
@@ -162,10 +150,6 @@ public class King extends Piece {
         }
 
         if(this.getColor() == Color.BLACK) {
-            if(!board[0][0].isOccupied()) {
-                return false;
-            }
-
             if(!(board[0][0].getPiece() instanceof Rook)) {
                 return false;
             }
