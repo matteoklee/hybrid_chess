@@ -1,4 +1,4 @@
-package de.kleemann.hybrid_chess.persistence.configuration;
+package de.kleemann.hybrid_chess.persistence;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;

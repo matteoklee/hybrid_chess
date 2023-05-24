@@ -32,7 +32,7 @@ public class ChessService {
         }
         final ChessGameEntity updatedChessGameEntity;
         try {
-            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity());
+            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity(), chessGame.getBoard());
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

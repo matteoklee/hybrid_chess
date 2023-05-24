@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
@@ -19,7 +20,7 @@ public class ChessGameEntity {
     private GameState gameState;
     private Player[] players;
     private Player whoIsPlaying;
-    private List<Move> moves;
+    private ArrayList<Move> moves;
 
     public ChessGameEntity() {
 
@@ -61,11 +62,11 @@ public class ChessGameEntity {
         this.id = id;
     }
 
-    public List<Move> getMoves() {
+    public ArrayList<Move> getMoves() {
         return moves;
     }
 
-    public void setMoves(List<Move> moves) {
+    public void setMoves(ArrayList<Move> moves) {
         this.moves = moves;
     }
 

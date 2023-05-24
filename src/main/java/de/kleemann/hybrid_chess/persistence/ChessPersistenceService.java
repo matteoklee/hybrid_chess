@@ -1,5 +1,7 @@
 package de.kleemann.hybrid_chess.persistence;
 
+import de.kleemann.hybrid_chess.core.game.ChessBoard;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class ChessPersistenceService {
     private final ChessRepository chessRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
 
-    public ChessPersistenceService(final ChessRepository chessRepository, final SequenceGeneratorService sequenceGeneratorService) {
+    public ChessPersistenceService(ChessRepository chessRepository, final SequenceGeneratorService sequenceGeneratorService) {
         this.chessRepository = chessRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
     }
@@ -31,7 +33,7 @@ public class ChessPersistenceService {
         return chessRepository.save(chessGame);
     }
 
-    public ChessGameEntity updateChessGame(int chessGameId, ChessGameEntity chessGameEntity) {
+    public ChessGameEntity updateChessGame(int chessGameId, ChessGameEntity chessGameEntity, ChessBoard chessBoard) {
         if(chessGameEntity == null) {
             throw new IllegalArgumentException("chessGameEntity must not be null.");
         }
@@ -39,8 +41,40 @@ public class ChessPersistenceService {
         updatedChessGameEntity.setId(chessGameId);
         updatedChessGameEntity.setGameState(chessGameEntity.getGameState());
         //updatedChessGameEntity.setPlayers(chessGameEntity.getPlayers());
-        updatedChessGameEntity.setWhoIsPlaying(chessGameEntity.getWhoIsPlaying());
-        updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+        System.err.println("Move from last player: " + updatedChessGameEntity.getWhoIsPlaying().getName() + "; new move from player: " + chessGameEntity.getWhoIsPlaying().getName());
+        if(!updatedChessGameEntity.getWhoIsPlaying().getName().equals(chessGameEntity.getWhoIsPlaying().getName())) {
+            updatedChessGameEntity.setWhoIsPlaying(chessGameEntity.getWhoIsPlaying());
+        } else {
+            System.err.println("Wrong Player is playing.");
+            throw new IllegalArgumentException("Wrong Player is playing.");
+        }
+
+        if(chessGameEntity.getMoves() != null) {
+            System.err.println("Size of moves: " + chessGameEntity.getMoves().size());
+            for(Move move : chessGameEntity.getMoves()) {
+                //TODO: check if player is using figure of own color. --> Error: pieces in movelist are null!
+                //TODO: test caes of moves from all possible figures.
+                /*
+                if(move.getPreviousPos().getPiece().getColor() != chessGameEntity.getWhoIsPlaying().getColor()) {
+                    throw new IllegalArgumentException("Player used figure of wrong color");
+                }
+                */
+                if(chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece() != null) {
+                    boolean validMove = chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(chessBoard, move.getNewPos().getY(), move.getNewPos().getX());
+                    System.err.println("CHESS BOARD VALIDATES MOVE: " + validMove);
+                    if(!validMove) {
+                        chessGameEntity.getMoves().remove(move);
+                        System.err.println("Move was not saved, because its not valid!");
+                    }
+                }
+            }
+        }
+
+        if(updatedChessGameEntity.getMoves() == null) {
+            updatedChessGameEntity.setMoves(chessGameEntity.getMoves());
+        } else {
+            updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+        }
         return saveChessGame(updatedChessGameEntity);
     }
 
