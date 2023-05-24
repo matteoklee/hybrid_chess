@@ -22,11 +22,9 @@ import java.util.List;
 class ChessController {
 
     private final ChessService chessService;
-    private final ChessPersistenceService chessPersistenceService;
 
-    ChessController(ChessService chessService, ChessPersistenceService chessPersistenceService) {
+    ChessController(final ChessService chessService) {
         this.chessService = chessService;
-        this.chessPersistenceService = chessPersistenceService;
     }
 
     @GetMapping("")

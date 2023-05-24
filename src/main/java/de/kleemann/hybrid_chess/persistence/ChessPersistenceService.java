@@ -13,7 +13,7 @@ public class ChessPersistenceService {
     private final ChessRepository chessRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
 
-    public ChessPersistenceService(ChessRepository chessRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public ChessPersistenceService(final ChessRepository chessRepository, final SequenceGeneratorService sequenceGeneratorService) {
         this.chessRepository = chessRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
     }

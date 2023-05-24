@@ -14,7 +14,7 @@ public class ChessService {
     private final ChessPersistenceService chessPersistenceService;
 
 
-    public ChessService(ChessPersistenceService chessPersistenceService) {
+    public ChessService(final ChessPersistenceService chessPersistenceService) {
         this.chessPersistenceService = chessPersistenceService;
     }
 

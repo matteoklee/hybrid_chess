@@ -16,7 +16,7 @@ public class SequenceGeneratorService {
 
     private final MongoOperations mongoOperations;
 
-    public SequenceGeneratorService(MongoOperations mongoOperations) {
+    public SequenceGeneratorService(final MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
 
