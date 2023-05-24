@@ -25,7 +25,6 @@ class ChessController {
 
     ChessController(final ChessService chessService) {
         this.chessService = chessService;
-        //Testkommentar
     }
 
     @GetMapping("")
