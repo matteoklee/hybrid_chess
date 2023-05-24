@@ -21,12 +21,6 @@ import java.util.List;
 @RequestMapping("/api")
 class ChessController {
 
-    /**
-     *
-     * ChessController: Handling API Requests
-     *
-     */
-
     private final ChessService chessService;
 
     ChessController(final ChessService chessService) {
