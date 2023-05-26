@@ -1,4 +1,4 @@
-package de.kleemann.hybrid_chess.core.game;
+package de.kleemann.hybrid_chess.core.game.utils;
 
 public class Move {
 

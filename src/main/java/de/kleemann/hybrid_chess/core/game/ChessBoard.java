@@ -1,6 +1,8 @@
 package de.kleemann.hybrid_chess.core.game;
 
 import de.kleemann.hybrid_chess.core.game.pieces.*;
+import de.kleemann.hybrid_chess.core.game.utils.Color;
+import de.kleemann.hybrid_chess.core.game.utils.Position;
 
 public class ChessBoard {
 

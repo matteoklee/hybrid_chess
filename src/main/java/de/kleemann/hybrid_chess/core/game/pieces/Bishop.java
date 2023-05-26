@@ -1,8 +1,8 @@
 package de.kleemann.hybrid_chess.core.game.pieces;
 
 import de.kleemann.hybrid_chess.core.game.ChessBoard;
-import de.kleemann.hybrid_chess.core.game.Color;
-import de.kleemann.hybrid_chess.core.game.Position;
+import de.kleemann.hybrid_chess.core.game.utils.Color;
+import de.kleemann.hybrid_chess.core.game.utils.Position;
 
 import java.util.List;
 

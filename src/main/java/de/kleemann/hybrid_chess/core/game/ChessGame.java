@@ -1,11 +1,11 @@
 package de.kleemann.hybrid_chess.core.game;
 
+import de.kleemann.hybrid_chess.core.game.utils.GameState;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
-import org.springframework.data.annotation.Id;
 
-import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChessGame {
 
@@ -27,12 +27,17 @@ public class ChessGame {
         return board;
     }
 
-    public ChessBoard updateChessBoard() {
+    public ChessBoard loadChessBoard() {
         if(chessGameEntity.getMoves() == null) return board;
         //TODO: Anhand der Moves Positionen der Figuren bestimmen und ChessBoard Objekt erstellen
         for(Move move : chessGameEntity.getMoves()) {
-            boolean validMove = getBoard().getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(board, move.getNewPos().getY(), move.getNewPos().getX());
-            System.err.println("CHESS BOARD HANDLE MOVE: " + validMove);
+            if(getBoard().getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece() != null) {
+                boolean validMove = getBoard().getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(board, move.getNewPos().getY(), move.getNewPos().getX());
+                System.err.println("CHESS BOARD HANDLE MOVE: " + validMove);
+                if(!validMove) {
+                    chessGameEntity.getMoves().remove(move);
+                }
+            }
         }
         return board;
     }
@@ -78,11 +83,11 @@ public class ChessGame {
         this.chessGameEntity.setPlayers(players);
     }
 
-    public List<Move> getMoves() {
+    public ArrayList<Move> getMoves() {
         return this.chessGameEntity.getMoves();
     }
 
-    public void setMoves(List<Move> moves) {
+    public void setMoves(ArrayList<Move> moves) {
         this.chessGameEntity.setMoves(moves);
     }
 

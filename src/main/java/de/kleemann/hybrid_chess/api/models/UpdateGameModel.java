@@ -1,10 +1,8 @@
 package de.kleemann.hybrid_chess.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.kleemann.hybrid_chess.core.game.Move;
-import de.kleemann.hybrid_chess.core.game.Player;
-
-import java.util.List;
+import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 
 public class UpdateGameModel {
 

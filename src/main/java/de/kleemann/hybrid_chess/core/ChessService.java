@@ -1,12 +1,10 @@
 package de.kleemann.hybrid_chess.core;
 
-import de.kleemann.hybrid_chess.api.models.CreateGameModel;
 import de.kleemann.hybrid_chess.core.game.*;
 import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +14,7 @@ public class ChessService {
     private final ChessPersistenceService chessPersistenceService;
 
 
-    public ChessService(ChessPersistenceService chessPersistenceService) {
+    public ChessService(final ChessPersistenceService chessPersistenceService) {
         this.chessPersistenceService = chessPersistenceService;
     }
 
@@ -34,7 +32,7 @@ public class ChessService {
         }
         final ChessGameEntity updatedChessGameEntity;
         try {
-            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity());
+            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity(), chessGame.getBoard());
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
