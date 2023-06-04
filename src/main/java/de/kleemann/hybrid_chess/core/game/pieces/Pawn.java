@@ -88,7 +88,7 @@ public class Pawn extends Piece {
                 }
             }
 
-            if(y-1 >= 0 && x-1 < chessBoard.getColumns()) {
+            if(y-1 >= 0 && x-1 >= 0) {
                 if(board[y-1][x-1].isOccupiedAndOpponent(this)) {
                     legalMoves.add(board[y-1][x-1]); // Über Kreuz nach links schlagen
                 }
