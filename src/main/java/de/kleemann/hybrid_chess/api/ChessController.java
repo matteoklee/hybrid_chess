@@ -81,14 +81,7 @@ class ChessController {
         chessGame.setId(chessGameId);
         chessGame.setGameState(GameState.RUNNING);
         chessGame.setWhoIsPlaying(model.getWhoIsPlaying());
-        //ChessGame test = getChessGameById(2).getBody();
-        //.setMoves(Arrays.asList(new Move(test.getBoard().getBoard()[1][4], test.getBoard().getBoard()[2][4]), new Move(test.getBoard().getBoard()[1][3], test.getBoard().getBoard()[2][3])));
-        //chessGame.updateChessBoard();
         chessGame.setMoves(new ArrayList<>(Arrays.asList(model.getMove())));
-
-        //boolean testMove = chessGame.getBoard().getBoard()[1][4].getPiece().move(chessBoard, 2, 4);
-        //final ChessGame persistedChessGame = chessService.persistChessGame(chessGame);
-        //return persistedChessGame;
         return chessGame;
     }
 
