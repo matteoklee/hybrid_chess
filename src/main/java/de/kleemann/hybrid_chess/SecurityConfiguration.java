@@ -17,21 +17,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // add http.cors()
         http.cors().and().csrf().disable();
-                /*.authorizeRequests()
-                .antMatchers("/get/**").permitAll()
-                .antMatchers("/update/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic(); // Authenticate users with HTTP basic authentication
-            */
-        // REST is stateless
-        //http.sessionManagement()
-        //        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    // To enable CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();

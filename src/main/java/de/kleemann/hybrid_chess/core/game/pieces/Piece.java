@@ -56,8 +56,8 @@ public abstract class Piece {
                 board[y][x].setPiece(this);
 
                 chessBoard.setBoard(board);
-                chessBoard.getCheckDetector().updateLists();
-                chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
+                //chessBoard.getCheckDetector().updateLists();
+                //chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
                 return true;
             }
         }
