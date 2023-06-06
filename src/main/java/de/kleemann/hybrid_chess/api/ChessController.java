@@ -145,6 +145,7 @@ class ChessController {
     @GetMapping("/games/{id}")
     public ResponseEntity<ChessGame> getChessGameById(@PathVariable(value = "id") int chessGameId) {
         ChessGame chessGame = chessService.findChessGameById(chessGameId);
+        //TODO: null Check of chessGame  Object
        if(chessGame.getBoard() == null) {
             //chessGame.setBoard(new ChessBoard());
             chessGame.loadChessBoard();

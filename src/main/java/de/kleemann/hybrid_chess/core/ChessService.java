@@ -30,9 +30,11 @@ public class ChessService {
         if(chessGame == null) {
             throw new IllegalArgumentException("chessGame must not be null!");
         }
+        final ChessGame existingChessGame = findChessGameById(chessGameId);
+        existingChessGame.loadChessBoard();
         final ChessGameEntity updatedChessGameEntity;
         try {
-            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity(), chessGame.getBoard());
+            updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity(), existingChessGame.getBoard());
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

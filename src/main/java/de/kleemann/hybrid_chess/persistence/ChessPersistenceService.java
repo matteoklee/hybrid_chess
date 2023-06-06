@@ -6,6 +6,7 @@ import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -40,6 +41,7 @@ public class ChessPersistenceService {
         ChessGameEntity updatedChessGameEntity = findChessGameById(chessGameId);
         updatedChessGameEntity.setId(chessGameId);
         updatedChessGameEntity.setGameState(chessGameEntity.getGameState());
+        System.err.println(chessBoard.printChessBoard());
         //updatedChessGameEntity.setPlayers(chessGameEntity.getPlayers());
         System.err.println("Move from last player: " + updatedChessGameEntity.getWhoIsPlaying().getName() + "; new move from player: " + chessGameEntity.getWhoIsPlaying().getName());
         if(!updatedChessGameEntity.getWhoIsPlaying().getName().equals(chessGameEntity.getWhoIsPlaying().getName())) {
@@ -51,7 +53,8 @@ public class ChessPersistenceService {
 
         if(chessGameEntity.getMoves() != null) {
             System.err.println("Size of moves: " + chessGameEntity.getMoves().size());
-            for(Move move : chessGameEntity.getMoves()) {
+            for (Iterator<Move> it = chessGameEntity.getMoves().iterator(); it.hasNext();) {
+                Move move = it.next();
                 //TODO: check if player is using figure of own color. --> Error: pieces in movelist are null!
                 //TODO: test caes of moves from all possible figures.
                 /*
@@ -60,12 +63,20 @@ public class ChessPersistenceService {
                 }
                 */
                 if(chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece() != null) {
+                    //boolean validMove = chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(chessBoard, move.getNewPos().getY(), move.getNewPos().getX());
                     boolean validMove = chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece().move(chessBoard, move.getNewPos().getY(), move.getNewPos().getX());
                     System.err.println("CHESS BOARD VALIDATES MOVE: " + validMove);
+                    System.err.println("Move from " + move.getPreviousPos().getX() + " " + move.getPreviousPos().getY() + " to " + move.getNewPos().getX() + " " + move.getNewPos().getY());
+
                     if(!validMove) {
-                        chessGameEntity.getMoves().remove(move);
+                        //chessGameEntity.getMoves().remove(move);
+                        it.remove();
                         System.err.println("Move was not saved, because its not valid!");
                     }
+                    System.out.println(chessBoard.printChessBoard());
+                } else {
+                    System.err.println("chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece() == null");
+                    System.out.println(chessBoard.printChessBoard());
                 }
             }
         }
@@ -73,8 +84,11 @@ public class ChessPersistenceService {
         if(updatedChessGameEntity.getMoves() == null) {
             updatedChessGameEntity.setMoves(chessGameEntity.getMoves());
         } else {
-            updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+            if(chessGameEntity.getMoves().size() > 0) {
+                updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+            }
         }
+        System.err.println("DEBUG SIZE OF MOVES: " + updatedChessGameEntity.getMoves().size());
         return saveChessGame(updatedChessGameEntity);
     }
 

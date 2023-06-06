@@ -64,4 +64,11 @@ public class Position {
         return getPiece().getPieceName();
     }
 
+    public String getColorName() {
+        if(this.getPiece() == null) {
+            return "N";
+        }
+        return getPiece().getColorName();
+    }
+
 }
