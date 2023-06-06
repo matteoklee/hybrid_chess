@@ -49,6 +49,8 @@ public class King extends Piece {
             }
         }
 
+        // TODO: remove illegal moves
+
         if(this.canCastleKingSide(chessBoard)) {
             if(this.getColor() == Color.WHITE) {
                 legalMoves.add(board[7][6]);
