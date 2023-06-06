@@ -88,7 +88,7 @@ public class Pawn extends Piece {
                 }
             }
 
-            if(y-1 >= 0 && x-1 < chessBoard.getColumns()) {
+            if(y-1 >= 0 && x-1 >= 0) {
                 if(board[y-1][x-1].isOccupiedAndOpponent(this)) {
                     legalMoves.add(board[y-1][x-1]); // Über Kreuz nach links schlagen
                 }
@@ -123,12 +123,40 @@ public class Pawn extends Piece {
     }
 
     public boolean checkAndExecuteEnPassant(ChessBoard chessBoard, Position newPosition) {
+        if(!this.getEnPassant()) return false;
+
+        if(Math.abs(this.getX() - newPosition.getX()) != 1 || Math.abs(this.getY() - newPosition.getY()) != 1) {
+            return false;
+        }
+
         Position[][] board = chessBoard.getBoard();
 
-        if(this.getEnPassant()) {
-            if (newPosition.getY() - 1 >= 0 && board[newPosition.getY() - 1][newPosition.getX()].isOccupiedAndOpponent(this)) {
-                if (board[newPosition.getY() - 1][newPosition.getX()].getPiece() instanceof Pawn) {
-                    // TODO
+        if(this.getColor() == Color.WHITE) {
+            if(newPosition.getY() + 1 < chessBoard.getRows() && board[newPosition.getY() + 1][newPosition.getX()].isOccupiedAndOpponent(this)) { // Hinter dem weißen Bauer ist ein Gegner
+                if(board[newPosition.getY() + 1][newPosition.getX()].getPiece() instanceof Pawn) { // Gegner ist ein Bauer
+                    board[newPosition.getY() + 1][newPosition.getX()].removePiece(); // Gegner schlagen
+
+                    board[this.getY()][this.getX()].removePiece();
+                    this.setX(newPosition.getX());
+                    this.setY(newPosition.getY());
+                    board[newPosition.getY()][newPosition.getX()].setPiece(this);
+
+                    return true;
+                }
+            }
+        }
+
+        if(this.getColor() == Color.BLACK) {
+            if(newPosition.getY() - 1 >= 0 && board[newPosition.getY() - 1][newPosition.getX()].isOccupiedAndOpponent(this)) { // Hinter dem schwarzen Bauer ist ein Gegner
+                if(board[newPosition.getY() - 1][newPosition.getX()].getPiece() instanceof Pawn) { // Gegner ist ein Bauer
+                    board[newPosition.getY() - 1][newPosition.getX()].removePiece(); // Gegner schlagen
+
+                    board[this.getY()][this.getX()].removePiece();
+                    this.setX(newPosition.getX());
+                    this.setY(newPosition.getY());
+                    board[newPosition.getY()][newPosition.getX()].setPiece(this);
+
+                    return true;
                 }
             }
         }

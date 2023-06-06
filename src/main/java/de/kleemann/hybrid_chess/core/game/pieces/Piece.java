@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class Piece {
 
     private final Color color;
+    private boolean captured;
     private int x;
     private int y;
 
@@ -17,6 +18,7 @@ public abstract class Piece {
         this.color = color;
         this.x = x;
         this.y = y;
+        this.captured = false;
     }
 
     public Color getColor() {
@@ -30,11 +32,14 @@ public abstract class Piece {
         if(newPosition.isKing()) return false;
 
         // En Passant
+        boolean enPassant = false;
         if(this instanceof Pawn) {
-            boolean enPassant = ((Pawn) this).checkAndExecuteEnPassant(chessBoard, newPosition);
+            enPassant = ((Pawn) this).checkAndExecuteEnPassant(chessBoard, newPosition);
         }
 
         chessBoard.unsetAllPawnsEnPassant();
+
+        if(enPassant) return true;
 
         List<Position> legalMoves = getLegalMoves(chessBoard);
 
@@ -42,11 +47,17 @@ public abstract class Piece {
             if(legal == newPosition) {
                 board[this.y][this.x].removePiece();
 
+                if(newPosition.isOccupied()) {
+                    newPosition.getPiece().setCaptured(true);
+                }
+
                 this.x = newPosition.getX();
                 this.y = newPosition.getY();
                 board[y][x].setPiece(this);
-                //this.getPosition().setPiece(this);
+
                 chessBoard.setBoard(board);
+                chessBoard.getCheckDetector().updateLists();
+                chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
                 return true;
             }
         }
@@ -179,5 +190,21 @@ public abstract class Piece {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isCaptured() {
+        return captured;
+    }
+
+    public void setCaptured(boolean captured) {
+        this.captured = captured;
     }
 }
