@@ -20,6 +20,19 @@ public class CheckDetector {
         initializeLists();
     }
 
+    public void checkForCheckmateOrStalemate(Color color) {
+        if(getAllLegalMoves(color).size() > 0) {
+            return;
+        }
+
+        if(isKingInCheck(getKing(color))) {
+            // Checkmate
+           return;
+        }
+        // Stalemate
+        return;
+    }
+
     public boolean isKingInCheck(King king) {
         Position[][] board = chessBoard.getBoard();
         Position kingPosition = board[king.getY()][king.getX()];
@@ -60,6 +73,54 @@ public class CheckDetector {
             }
         }
         return false;
+    }
+
+    public ArrayList<Position> getAllLegalMoves(Color color) {
+        ArrayList<Position> threatenedPositions = new ArrayList<>();
+
+        if(color == Color.WHITE) {
+            for(Piece piece : whitePieces) {
+                if(piece instanceof King) {
+                    if(!((King) piece).wasMoved()) {
+                        continue;
+                    }
+                }
+
+                threatenedPositions.addAll(piece.getLegalMoves(chessBoard));
+            }
+            return threatenedPositions;
+        }
+
+        if(color == Color.BLACK) {
+            for(Piece piece : blackPieces) {
+                if(piece instanceof King) {
+                    if(!((King) piece).wasMoved()) {
+                        continue;
+                    }
+                }
+
+                threatenedPositions.addAll(piece.getLegalMoves(chessBoard));
+            }
+            return threatenedPositions;
+        }
+
+        return threatenedPositions;
+    }
+
+    private King getKing(Color color) {
+        if(color == Color.WHITE) {
+            return (King) whitePieces.stream().filter(piece -> piece instanceof King).findFirst().get();
+        }
+
+        if(color == Color.BLACK) {
+            return (King) blackPieces.stream().filter(piece -> piece instanceof King).findFirst().get();
+        }
+        return null;
+    }
+
+    public void updateLists() {
+        whitePieces.stream().filter(Piece::isCaptured).forEach(piece -> whitePieces.remove(piece));
+        blackPieces.stream().filter(Piece::isCaptured).forEach(piece -> blackPieces.remove(piece));
     }
 
     private void initializeLists() {
