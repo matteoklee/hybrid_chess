@@ -56,8 +56,8 @@ public abstract class Piece {
                 board[y][x].setPiece(this);
 
                 chessBoard.setBoard(board);
-                chessBoard.getCheckDetector().updateLists();
-                chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
+                //chessBoard.getCheckDetector().updateLists();
+                //chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
                 return true;
             }
         }
@@ -178,6 +178,10 @@ public abstract class Piece {
 
     public String getPieceName() {
         return getClass().getSimpleName().substring(0, 2);
+    }
+    public String getColorName() {
+        if(getColor() == null) return "N";
+        return getColor().toString().substring(0, 1);
     }
 
     public int getX() {
