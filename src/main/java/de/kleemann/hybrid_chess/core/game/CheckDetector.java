@@ -21,16 +21,19 @@ public class CheckDetector {
     }
 
     public void checkForCheckmateOrStalemate(Color color) {
-        if(getAllLegalMoves(color).size() > 0) {
+        if(getAllLegalPositions(color).size() > 0) {
             return;
         }
 
         if(isKingInCheck(getKing(color))) {
-            // Checkmate
-           return;
+            System.err.println("CHECKMATE");
+            return;
         }
-        // Stalemate
-        return;
+        System.err.println("STALEMATE");
+    }
+
+    public boolean isKingInCheck(Color color) {
+        return isKingInCheck(getKing(color));
     }
 
     public boolean isKingInCheck(King king) {
@@ -75,8 +78,8 @@ public class CheckDetector {
         return false;
     }
 
-    public ArrayList<Position> getAllLegalMoves(Color color) {
-        ArrayList<Position> threatenedPositions = new ArrayList<>();
+    public ArrayList<Position> getAllLegalPositions(Color color) {
+        ArrayList<Position> allLegalMoves = new ArrayList<>();
 
         if(color == Color.WHITE) {
             for(Piece piece : whitePieces) {
@@ -85,10 +88,9 @@ public class CheckDetector {
                         continue;
                     }
                 }
-
-                threatenedPositions.addAll(piece.getLegalMoves(chessBoard));
+                List<Position> legalMoves = piece.getLegalMoves(chessBoard);
+                allLegalMoves.addAll(legalMoves.stream().filter(position -> piece.verifyMove(chessBoard, position)).toList());
             }
-            return threatenedPositions;
         }
 
         if(color == Color.BLACK) {
@@ -98,13 +100,12 @@ public class CheckDetector {
                         continue;
                     }
                 }
-
-                threatenedPositions.addAll(piece.getLegalMoves(chessBoard));
+                List<Position> legalMoves = piece.getLegalMoves(chessBoard);
+                allLegalMoves.addAll(legalMoves.stream().filter(position -> piece.verifyMove(chessBoard, position)).toList());
             }
-            return threatenedPositions;
         }
 
-        return threatenedPositions;
+        return allLegalMoves;
     }
 
     private King getKing(Color color) {
@@ -118,9 +119,32 @@ public class CheckDetector {
         return null;
     }
 
-    public void updateLists() {
-        whitePieces.stream().filter(Piece::isCaptured).forEach(piece -> whitePieces.remove(piece));
-        blackPieces.stream().filter(Piece::isCaptured).forEach(piece -> blackPieces.remove(piece));
+    public void removePieceFromList(Piece piece) {
+        if(piece == null) return;
+
+        if(whitePieces.contains(piece)) {
+            whitePieces.remove(piece);
+            return;
+        }
+
+        if(blackPieces.contains(piece)) {
+            blackPieces.remove(piece);
+        }
+    }
+
+    public void addPieceToList(Piece piece) {
+        if(piece == null) return;
+
+        if(piece.getColor() == Color.WHITE) {
+            if(whitePieces.contains(piece)) return;
+            whitePieces.add(piece);
+            return;
+        }
+
+        if(piece.getColor() == Color.BLACK) {
+            if(blackPieces.contains(piece)) return;
+            blackPieces.add(piece);
+        }
     }
 
     private void initializeLists() {
@@ -129,17 +153,17 @@ public class CheckDetector {
         whitePieces = new ArrayList<>();
         blackPieces = new ArrayList<>();
 
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[i].length; j++) {
-                if(!board[i][j].isOccupied()) continue;
+        for(Position[] positions : board) {
+            for(Position position : positions) {
+                if(!position.isOccupied()) continue;
 
-                if(board[i][j].getPiece().getColor() == Color.WHITE) {
-                    whitePieces.add(board[i][j].getPiece());
+                if(position.getPiece().getColor() == Color.WHITE) {
+                    whitePieces.add(position.getPiece());
                     continue;
                 }
 
-                if(board[i][j].getPiece().getColor() == Color.BLACK) {
-                    blackPieces.add(board[i][j].getPiece());
+                if(position.getPiece().getColor() == Color.BLACK) {
+                    blackPieces.add(position.getPiece());
                 }
             }
         }
