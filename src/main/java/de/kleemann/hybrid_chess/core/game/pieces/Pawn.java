@@ -77,7 +77,7 @@ public class Pawn extends Piece {
             }
 
             if(!wasMoved) {
-                if(!board[y-2][x].isOccupied()) {
+                if(!board[y-1][x].isOccupied() && !board[y-2][x].isOccupied()) {
                     legalMoves.add(board[y-2][x]); // Erster Zug 2 Felder nach oben
                 }
             }
@@ -101,7 +101,7 @@ public class Pawn extends Piece {
             }
 
             if(!wasMoved) {
-                if(!board[y+2][x].isOccupied()) {
+                if(!board[y+1][x].isOccupied() && !board[y+2][x].isOccupied()) {
                     legalMoves.add(board[y+2][x]); // Erster Zug 2 Felder nach unten
                 }
             }
