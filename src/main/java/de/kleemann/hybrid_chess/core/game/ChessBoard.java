@@ -6,11 +6,11 @@ import de.kleemann.hybrid_chess.core.game.utils.Position;
 
 public class ChessBoard {
 
-    private int rows;
-    private int columns;
+    private final int rows;
+    private final int columns;
 
     private Position[][] board;
-    //private CheckDetector checkDetector;
+    private CheckDetector checkDetector;
 
     public static final int DEFAULT_ROWS = 8;
     public static final int DEFAULT_COLUMNS = 8;
@@ -27,47 +27,26 @@ public class ChessBoard {
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
-                switch(i) {
-                    case 0:
-                        initialSetup(this.board, Color.BLACK, i, j);
-                        break;
-                    case 1:
-                        this.board[i][j] = new Position(i, j, new Pawn(Color.BLACK, j, i));
-                        break;
-                    case 6:
-                        this.board[i][j] = new Position(i, j, new Pawn(Color.WHITE, j, i));
-                        break;
-                    case 7:
-                        initialSetup(this.board, Color.WHITE, i, j);
-                        break;
-                    default:
-                        this.board[i][j] = new Position(i, j, null);
-                        break;
+                switch (i) {
+                    case 0 -> initialSetup(this.board, Color.BLACK, i, j);
+                    case 1 -> this.board[i][j] = new Position(i, j, new Pawn(Color.BLACK, j, i));
+                    case 6 -> this.board[i][j] = new Position(i, j, new Pawn(Color.WHITE, j, i));
+                    case 7 -> initialSetup(this.board, Color.WHITE, i, j);
+                    default -> this.board[i][j] = new Position(i, j, null);
                 }
             }
         }
-        //this.checkDetector = new CheckDetector(this);
     }
 
     private void initialSetup(Position[][] board, Color color, int i, int j) {
-        switch(j) {
-            case 0, 7:
-                board[i][j] = new Position(i, j, new Rook(color, j, i));
-                break;
-            case 1, 6:
-                board[i][j] = new Position(i, j, new Knight(color, j, i));
-                break;
-            case 2, 5:
-                board[i][j] = new Position(i, j, new Bishop(color, j, i));
-                break;
-            case 3:
-                board[i][j] = new Position(i, j, new Queen(color, j, i));
-                break;
-            case 4:
-                board[i][j] = new Position(i, j, new King(color, j, i));
-                break;
-            default:
-                break;
+        switch (j) {
+            case 0, 7 -> board[i][j] = new Position(i, j, new Rook(color, j, i));
+            case 1, 6 -> board[i][j] = new Position(i, j, new Knight(color, j, i));
+            case 2, 5 -> board[i][j] = new Position(i, j, new Bishop(color, j, i));
+            case 3 -> board[i][j] = new Position(i, j, new Queen(color, j, i));
+            case 4 -> board[i][j] = new Position(i, j, new King(color, j, i));
+            default -> {
+            }
         }
     }
 
@@ -96,10 +75,14 @@ public class ChessBoard {
         return board;
     }
 
-    /*public CheckDetector getCheckDetector() {
+    public CheckDetector getCheckDetector() {
         return checkDetector;
     }
-    */
+
+    public void setCheckDetector(CheckDetector checkDetector) {
+        this.checkDetector = checkDetector;
+    }
+
     public String printChessBoard() {
         String result = "\n";
 
@@ -124,10 +107,10 @@ public class ChessBoard {
     public void unsetAllPawnsEnPassant() {
         Position[][] board = this.getBoard();
 
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[i].length; j++) {
-                if(board[i][j].getPiece() instanceof Pawn) {
-                    ((Pawn) board[i][j].getPiece()).setEnPassant(false);
+        for(Position[] positions : board) {
+            for(Position position : positions) {
+                if(position.getPiece() instanceof Pawn) {
+                    ((Pawn) position.getPiece()).setEnPassant(false);
                 }
             }
         }

@@ -59,7 +59,7 @@ public class Position {
 
     public String getPieceName() {
         if(this.getPiece() == null) {
-            return "XX";
+            return "  ";
         }
         return getPiece().getPieceName();
     }

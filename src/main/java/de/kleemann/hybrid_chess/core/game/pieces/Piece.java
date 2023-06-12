@@ -4,13 +4,13 @@ import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.utils.Color;
 import de.kleemann.hybrid_chess.core.game.utils.Position;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Piece {
 
     private final Color color;
-    private boolean captured;
     private int x;
     private int y;
 
@@ -18,11 +18,6 @@ public abstract class Piece {
         this.color = color;
         this.x = x;
         this.y = y;
-        this.captured = false;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public boolean move(ChessBoard chessBoard, int y, int x) {
@@ -45,23 +40,59 @@ public abstract class Piece {
 
         for(Position legal : legalMoves) {
             if(legal == newPosition) {
+                if(!verifyMove(chessBoard, newPosition)) return false;
+
                 board[this.y][this.x].removePiece();
 
-                if(newPosition.isOccupied()) {
-                    newPosition.getPiece().setCaptured(true);
-                }
+                chessBoard.getCheckDetector().removePieceFromList(newPosition.getPiece());
 
                 this.x = newPosition.getX();
                 this.y = newPosition.getY();
                 board[y][x].setPiece(this);
 
                 chessBoard.setBoard(board);
-                //chessBoard.getCheckDetector().updateLists();
-                //chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
+                chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Checks whether it is an actual legal move
+     *
+     * @param chessBoard
+     * @param legalPosition
+     * @return False when the king is in check after that specific move
+     */
+    public boolean verifyMove(ChessBoard chessBoard, Position legalPosition) {
+        Position[][] board = chessBoard.getBoard();
+        Position originalPosition = board[this.getY()][this.getX()];
+
+        originalPosition.removePiece();
+
+        Piece captured = legalPosition.getPiece();
+        chessBoard.getCheckDetector().removePieceFromList(captured);
+
+        this.x = legalPosition.getX();
+        this.y = legalPosition.getY();
+
+        board[legalPosition.getY()][legalPosition.getX()].setPiece(this);
+
+        // Ist der König im Schach?
+        // Wenn ja -> kein legaler Zug
+        boolean isKingInCheck = chessBoard.getCheckDetector().isKingInCheck(this.getColor());
+
+        // Zug rückgängig machen
+        board[this.y][this.x].setPiece(captured);
+        board[originalPosition.getY()][originalPosition.getX()].setPiece(this);
+
+        this.x = originalPosition.getX();
+        this.y = originalPosition.getY();
+
+        chessBoard.getCheckDetector().addPieceToList(captured);
+
+        return !isKingInCheck;
     }
 
     public List<Position> getDiagonalMoves(ChessBoard chessBoard) {
@@ -176,9 +207,14 @@ public abstract class Piece {
 
     public abstract List<Position> getLegalMoves(ChessBoard chessBoard);
 
+    public Color getColor() {
+        return color;
+    }
+
     public String getPieceName() {
         return getClass().getSimpleName().substring(0, 2);
     }
+
     public String getColorName() {
         if(getColor() == null) return "N";
         return getColor().toString().substring(0, 1);
@@ -198,13 +234,5 @@ public abstract class Piece {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public boolean isCaptured() {
-        return captured;
-    }
-
-    public void setCaptured(boolean captured) {
-        this.captured = captured;
     }
 }
