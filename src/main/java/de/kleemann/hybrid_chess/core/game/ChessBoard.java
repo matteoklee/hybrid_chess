@@ -10,7 +10,7 @@ public class ChessBoard {
     private final int columns;
 
     private Position[][] board;
-    //private CheckDetector checkDetector;
+    private CheckDetector checkDetector;
 
     public static final int DEFAULT_ROWS = 8;
     public static final int DEFAULT_COLUMNS = 8;
@@ -76,7 +76,7 @@ public class ChessBoard {
         return board;
     }
 
-    /*public CheckDetector getCheckDetector() {
+    public CheckDetector getCheckDetector() {
         if(this.checkDetector == null) {
            this.checkDetector = new CheckDetector(this);
         }
@@ -85,7 +85,7 @@ public class ChessBoard {
 
     public void setCheckDetector(CheckDetector checkDetector) {
         this.checkDetector = checkDetector;
-    }*/
+    }
 
     public String printChessBoard() {
         String result = "\n";

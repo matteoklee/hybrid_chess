@@ -93,13 +93,13 @@ public class King extends Piece {
                 return false;
             }
 
-            /*if(chessBoard.getCheckDetector().isKingInCheck(this)) {
+            if(chessBoard.getCheckDetector().isKingInCheck(this)) {
                 return false;
             }
 
             if(chessBoard.getCheckDetector().isPositionThreatened(this.getColor(), board[7][5], board[7][6])) {
                 return false;
-            }*/
+            }
             return true;
         }
 
@@ -116,7 +116,7 @@ public class King extends Piece {
                 return false;
             }
 
-            /*
+
             if(chessBoard.getCheckDetector().isKingInCheck(this)) {
                 return false;
             }
@@ -124,7 +124,7 @@ public class King extends Piece {
             if(chessBoard.getCheckDetector().isPositionThreatened(this.getColor(), board[0][5], board[0][6])) {
                 return false;
             }
-            */
+
             return true;
         }
         return false;
@@ -153,7 +153,7 @@ public class King extends Piece {
                 return false;
             }
 
-            /*
+
             if(chessBoard.getCheckDetector().isKingInCheck(this)) {
                 return false;
             }
@@ -162,7 +162,7 @@ public class King extends Piece {
                 return false;
             }
 
-             */
+
             return true;
         }
 
@@ -179,7 +179,7 @@ public class King extends Piece {
                 return false;
             }
 
-            /*
+
             if(chessBoard.getCheckDetector().isKingInCheck(this)) {
                 return false;
             }
@@ -188,7 +188,7 @@ public class King extends Piece {
                 return false;
             }
 
-             */
+
             return true;
         }
         return false;
