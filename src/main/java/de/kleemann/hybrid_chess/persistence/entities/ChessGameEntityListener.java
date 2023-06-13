@@ -1,6 +1,6 @@
 package de.kleemann.hybrid_chess.persistence.entities;
 
-import de.kleemann.hybrid_chess.persistence.SequenceGeneratorService;
+import de.kleemann.hybrid_chess.persistence.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;

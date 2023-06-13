@@ -169,4 +169,15 @@ public class CheckDetector {
         }
     }
 
+    public ChessBoard getChessBoard() {
+        return chessBoard;
+    }
+
+    public ArrayList<Piece> getBlackPieces() {
+        return blackPieces;
+    }
+
+    public ArrayList<Piece> getWhitePieces() {
+        return whitePieces;
+    }
 }

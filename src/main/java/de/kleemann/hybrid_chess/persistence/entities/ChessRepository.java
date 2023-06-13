@@ -1,4 +1,4 @@
-package de.kleemann.hybrid_chess.persistence;
+package de.kleemann.hybrid_chess.persistence.entities;
 
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
