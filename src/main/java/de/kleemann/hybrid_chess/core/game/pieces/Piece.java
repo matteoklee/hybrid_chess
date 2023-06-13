@@ -44,14 +44,14 @@ public abstract class Piece {
 
                 board[this.y][this.x].removePiece();
 
-                chessBoard.getCheckDetector().removePieceFromList(newPosition.getPiece());
+                chessBoard.removePieceFromList(newPosition.getPiece());
 
                 this.x = newPosition.getX();
                 this.y = newPosition.getY();
                 board[y][x].setPiece(this);
 
                 chessBoard.setBoard(board);
-                chessBoard.getCheckDetector().checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
+                chessBoard.checkForCheckmateOrStalemate(color == Color.WHITE ? Color.BLACK : Color.WHITE);
                 return true;
             }
         }
@@ -72,7 +72,7 @@ public abstract class Piece {
         originalPosition.removePiece();
 
         Piece captured = legalPosition.getPiece();
-        chessBoard.getCheckDetector().removePieceFromList(captured);
+        chessBoard.removePieceFromList(captured);
 
         this.x = legalPosition.getX();
         this.y = legalPosition.getY();
@@ -81,7 +81,7 @@ public abstract class Piece {
 
         // Ist der König im Schach?
         // Wenn ja -> kein legaler Zug
-        boolean isKingInCheck = chessBoard.getCheckDetector().isKingInCheck(this.getColor());
+        boolean isKingInCheck = chessBoard.isKingInCheck(this.getColor());
 
         // Zug rückgängig machen
         board[this.y][this.x].setPiece(captured);
@@ -90,7 +90,7 @@ public abstract class Piece {
         this.x = originalPosition.getX();
         this.y = originalPosition.getY();
 
-        chessBoard.getCheckDetector().addPieceToList(captured);
+        chessBoard.addPieceToList(captured);
 
         return !isKingInCheck;
     }
