@@ -12,7 +12,6 @@ public class ChessGame {
     private ChessBoard board;
     private final ChessGameEntity chessGameEntity;
 
-
     public ChessGame(ChessGameEntity chessGameEntity) {
         if(chessGameEntity == null) {
             throw new IllegalArgumentException("chessGameEntity may not be null.");

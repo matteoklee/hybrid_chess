@@ -123,6 +123,7 @@ public class King extends Piece {
             if(chessBoard.isPositionThreatened(this.getColor(), board[0][5], board[0][6])) {
                 return false;
             }
+
             return true;
         }
         return false;
@@ -158,6 +159,8 @@ public class King extends Piece {
             if(chessBoard.isPositionThreatened(this.getColor(), board[7][3], board[7][2], board[7][1])) {
                 return false;
             }
+
+
             return true;
         }
 
@@ -181,6 +184,8 @@ public class King extends Piece {
             if(chessBoard.isPositionThreatened(this.getColor(), board[0][3], board[0][2], board[0][1])) {
                 return false;
             }
+
+
             return true;
         }
         return false;

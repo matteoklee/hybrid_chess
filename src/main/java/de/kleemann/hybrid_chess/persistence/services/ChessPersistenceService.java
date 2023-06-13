@@ -1,14 +1,16 @@
-package de.kleemann.hybrid_chess.persistence;
+package de.kleemann.hybrid_chess.persistence.services;
 
 import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.utils.Move;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
+import de.kleemann.hybrid_chess.persistence.entities.ChessRepository;
+import de.kleemann.hybrid_chess.exceptions.ChessGameIllegalArgumentException;
+import de.kleemann.hybrid_chess.exceptions.ChessGameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ChessPersistenceService {
@@ -36,7 +38,7 @@ public class ChessPersistenceService {
 
     public ChessGameEntity updateChessGame(int chessGameId, ChessGameEntity chessGameEntity, ChessBoard chessBoard) {
         if(chessGameEntity == null) {
-            throw new IllegalArgumentException("chessGameEntity must not be null.");
+            throw new ChessGameIllegalArgumentException("chessGameEntity must not be null.");
         }
         ChessGameEntity updatedChessGameEntity = findChessGameById(chessGameId);
         updatedChessGameEntity.setId(chessGameId);
@@ -48,7 +50,7 @@ public class ChessPersistenceService {
             updatedChessGameEntity.setWhoIsPlaying(chessGameEntity.getWhoIsPlaying());
         } else {
             System.err.println("Wrong Player is playing.");
-            throw new IllegalArgumentException("Wrong Player is playing.");
+            throw new ChessGameIllegalArgumentException("Wrong Player is playing.");
         }
 
         if(chessGameEntity.getMoves() != null) {
@@ -93,7 +95,7 @@ public class ChessPersistenceService {
     }
 
     public ChessGameEntity findChessGameById(int id) {
-        return chessRepository.findById(id).orElseThrow(() -> new NoSuchElementException("unknown chessGame with id: " + id));
+        return chessRepository.findById(id).orElseThrow(() -> new ChessGameNotFoundException(id));
     }
 
     public List<ChessGameEntity> findAll() {
@@ -102,10 +104,10 @@ public class ChessPersistenceService {
 
     public ChessGameEntity persistChessGame(ChessGameEntity chessGameEntity) {
         if(chessGameEntity == null) {
-            throw new IllegalArgumentException("chessGameEntity must not be null.");
+            throw new ChessGameIllegalArgumentException("chessGameEntity must not be null.");
         }
         if(chessGameEntity.getId() != null) {
-            throw new IllegalArgumentException("new chessGameEntity must not contain an id.");
+            throw new ChessGameIllegalArgumentException("new chessGameEntity must not contain an id.");
         }
         return saveChessGame(chessGameEntity);
     }

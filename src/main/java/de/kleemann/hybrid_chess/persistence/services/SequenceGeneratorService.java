@@ -1,4 +1,4 @@
-package de.kleemann.hybrid_chess.persistence;
+package de.kleemann.hybrid_chess.persistence.services;
 
 import de.kleemann.hybrid_chess.persistence.entities.DatabaseSequenceEntity;
 import org.springframework.data.mongodb.core.MongoOperations;

@@ -1,7 +1,7 @@
 package de.kleemann.hybrid_chess.core;
 
 import de.kleemann.hybrid_chess.core.game.*;
-import de.kleemann.hybrid_chess.persistence.ChessPersistenceService;
+import de.kleemann.hybrid_chess.persistence.services.ChessPersistenceService;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,9 @@ public class ChessService {
             throw new IllegalArgumentException("chessGame must not be null!");
         }
         final ChessGame existingChessGame = findChessGameById(chessGameId);
-        existingChessGame.loadChessBoard();
+        if(existingChessGame != null) {
+            existingChessGame.loadChessBoard();
+        }
         final ChessGameEntity updatedChessGameEntity;
         try {
             updatedChessGameEntity = chessPersistenceService.updateChessGame(chessGameId, chessGame.getChessGameEntity(), existingChessGame.getBoard());
