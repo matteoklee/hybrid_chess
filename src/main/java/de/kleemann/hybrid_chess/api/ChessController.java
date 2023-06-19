@@ -23,13 +23,16 @@ import java.util.List;
 class ChessController {
 
     private final ChessService chessService;
+    private final WebSocketController webSocketController;
 
-    ChessController(final ChessService chessService) {
+    ChessController(final ChessService chessService, WebSocketController webSocketController) {
         this.chessService = chessService;
+        this.webSocketController = webSocketController;
     }
 
     @GetMapping("")
     public ResponseEntity<String> getInfo() {
+        webSocketController.sendMessageToFrontend();
         return new ResponseEntity<>("Called API /api", HttpStatus.OK);
     }
 

@@ -13,13 +13,13 @@ public class WebSocketController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/hello") // Der Endpunkt für die eingehenden Nachrichten vom Frontend
-    @SendTo("/topic/greetings") // Der Endpunkt, an den die Nachrichten an das Frontend gesendet werden
+    /*@MessageMapping("/hello")
+    @SendTo("/topic/greetings")
     public Greeting greeting(String message) throws Exception {
-        Thread.sleep(1000); // Führt eine asynchrone Verarbeitung durch (kann entfernt werden)
+        Thread.sleep(1000);
         System.err.println("Hello, " + message + "!");
-        return new Greeting("Hello, " + message + "!"); //message.getName()
-    }
+        return new Greeting("Hello, " + message + "!");
+    }*/
 
     /*
     @Scheduled(fixedDelay = 5000)
@@ -27,27 +27,27 @@ public class WebSocketController {
         greetingChess("BACKEND DEBUG SOCKET"); // Methode ohne Parameter aufrufen
     }*/
 
-    @Scheduled(fixedDelay = 3000)
-    public void sendMessageToTopic() {
+    //@Scheduled(fixedDelay = 3000)
+    public void sendMessageToFrontend() {
         String message = "BACKEND DEBUG TEST";
         messagingTemplate.convertAndSend("/topic/chess", message);
     }
 
 
-    @MessageMapping("/chess") // Der Endpunkt für die eingehenden Nachrichten vom Frontend
+    /*@MessageMapping("/chess")
     @SendTo("/topic/chess")
     public Greeting greetingChess(String message) throws Exception {
         Thread.sleep(1000);
         System.err.println("Hello Chess, " + message + "!");
         return new Greeting("Hello Chess, " + message + "!");
-    }
+    }*/
 
-    @MessageMapping("/chessInfo") // Der Endpunkt für die eingehenden Nachrichten vom Frontend
+    /*@MessageMapping("/chessInfo")
     public Greeting getChessInfo(String message) throws Exception {
         Thread.sleep(1000);
         System.err.println("FRONTEND GOT INFO FROM BACKEND:, " + message + "!");
         return new Greeting("RONTEND GOT INFO FROM BACKEND:, " + message + "!");
-    }
+    }*/
 
 }
 
