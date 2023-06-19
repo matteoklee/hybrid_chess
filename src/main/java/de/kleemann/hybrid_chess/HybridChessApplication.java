@@ -11,17 +11,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication(scanBasePackages = {"de.kleemann.hybrid_chess"})
 public class HybridChessApplication implements WebMvcConfigurer {
 
-    private static WebSocketController webSocketController;
-
-    public HybridChessApplication(WebSocketController webSocketController) {
-        this.webSocketController = webSocketController;
-    }
-
     public static void main(String[] args) throws Exception {
         SpringApplication.run(HybridChessApplication.class, args);
         System.out.println("[HybridChess] Backend successfully started.");
-        Thread.sleep(10000);
-        webSocketController.greetingChess("HYBRID_CHESS");
+
+        /*for(int i = 0; i < 200; i++) {
+            WebSocketController.greetingChess("HYBRID_CHESS");
+            Thread.sleep(3000);
+        }*/
+
     }
 
     @RequestMapping("/")
