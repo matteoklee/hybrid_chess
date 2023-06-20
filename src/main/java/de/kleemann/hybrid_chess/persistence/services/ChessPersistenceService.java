@@ -2,6 +2,7 @@ package de.kleemann.hybrid_chess.persistence.services;
 
 import de.kleemann.hybrid_chess.core.game.ChessBoard;
 import de.kleemann.hybrid_chess.core.game.utils.Move;
+import de.kleemann.hybrid_chess.core.game.utils.Player;
 import de.kleemann.hybrid_chess.persistence.entities.ChessGameEntity;
 import de.kleemann.hybrid_chess.persistence.entities.ChessRepository;
 import de.kleemann.hybrid_chess.exceptions.ChessGameIllegalArgumentException;
@@ -46,13 +47,14 @@ public class ChessPersistenceService {
         System.err.println(chessBoard.printChessBoard());
         //updatedChessGameEntity.setPlayers(chessGameEntity.getPlayers());
         System.err.println("Move from last player: " + updatedChessGameEntity.getWhoIsPlaying().getName() + "; new move from player: " + chessGameEntity.getWhoIsPlaying().getName());
+        Player whoisPlayingBefore = updatedChessGameEntity.getWhoIsPlaying();
         if(!updatedChessGameEntity.getWhoIsPlaying().getName().equals(chessGameEntity.getWhoIsPlaying().getName())) {
             updatedChessGameEntity.setWhoIsPlaying(chessGameEntity.getWhoIsPlaying());
         } else {
             System.err.println("Wrong Player is playing.");
             throw new ChessGameIllegalArgumentException("Wrong Player is playing.");
         }
-
+        boolean valid = false;
         if(chessGameEntity.getMoves() != null) {
             System.err.println("Size of moves: " + chessGameEntity.getMoves().size());
             for (Iterator<Move> it = chessGameEntity.getMoves().iterator(); it.hasNext();) {
@@ -74,21 +76,27 @@ public class ChessPersistenceService {
                         //chessGameEntity.getMoves().remove(move);
                         it.remove();
                         System.err.println("Move was not saved, because its not valid!");
-                    }
+                    } else valid = true;
                     System.out.println(chessBoard.printChessBoard());
                 } else {
                     System.err.println("chessBoard.getBoard()[move.getPreviousPos().getY()][move.getPreviousPos().getX()].getPiece() == null");
+                    System.err.println("Piece not found at this position.");
                     System.out.println(chessBoard.printChessBoard());
                 }
             }
         }
 
-        if(updatedChessGameEntity.getMoves() == null) {
-            updatedChessGameEntity.setMoves(chessGameEntity.getMoves());
+        if(!valid) {
+            updatedChessGameEntity.setWhoIsPlaying(whoisPlayingBefore);
         } else {
-            if(chessGameEntity.getMoves().size() > 0) {
-                updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+            if(updatedChessGameEntity.getMoves() == null) {
+                updatedChessGameEntity.setMoves(chessGameEntity.getMoves());
+            } else {
+                if(chessGameEntity.getMoves().size() > 0) {
+                    updatedChessGameEntity.getMoves().add(chessGameEntity.getMoves().get(0));
+                }
             }
+            System.err.println("NEW SIZE OF MOVES: " + updatedChessGameEntity.getMoves().size());
         }
         System.err.println("DEBUG SIZE OF MOVES: " + updatedChessGameEntity.getMoves().size());
         return saveChessGame(updatedChessGameEntity);
@@ -96,6 +104,10 @@ public class ChessPersistenceService {
 
     public ChessGameEntity findChessGameById(int id) {
         return chessRepository.findById(id).orElseThrow(() -> new ChessGameNotFoundException(id));
+    }
+
+    public ChessGameEntity findLatestChessGame() {
+        return chessRepository.findFirstByOrderByIdDesc().orElseThrow(() -> new ChessGameNotFoundException("latest game not found"));
     }
 
     public List<ChessGameEntity> findAll() {

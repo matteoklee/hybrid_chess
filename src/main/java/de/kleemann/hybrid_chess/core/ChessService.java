@@ -62,6 +62,15 @@ public class ChessService {
         }
     }
 
+    public ChessGame findLatestChessGame() {
+        try {
+            return new ChessGame(chessPersistenceService.findLatestChessGame());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
     public List<ChessGame> findAllChessGames() {
         return chessPersistenceService.findAll().stream().map(ChessGame::new).collect(Collectors.toList());
     }

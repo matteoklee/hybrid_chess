@@ -7,4 +7,9 @@ public class ChessGameNotFoundException extends RuntimeException{
         this.setStackTrace(new StackTraceElement[0]);
     }
 
+    public ChessGameNotFoundException(String error) {
+        super("unknown chessGame: " + error);
+        this.setStackTrace(new StackTraceElement[0]);
+    }
+
 }

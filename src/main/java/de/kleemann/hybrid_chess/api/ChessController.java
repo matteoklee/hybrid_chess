@@ -4,10 +4,7 @@ import de.kleemann.hybrid_chess.api.models.CreateGameModel;
 import de.kleemann.hybrid_chess.api.models.UpdateGameModel;
 import de.kleemann.hybrid_chess.core.ChessService;
 import de.kleemann.hybrid_chess.core.game.*;
-import de.kleemann.hybrid_chess.core.game.utils.Color;
-import de.kleemann.hybrid_chess.core.game.utils.GameState;
-import de.kleemann.hybrid_chess.core.game.utils.Move;
-import de.kleemann.hybrid_chess.core.game.utils.Player;
+import de.kleemann.hybrid_chess.core.game.utils.*;
 import de.kleemann.hybrid_chess.exceptions.ChessGameIllegalArgumentException;
 import de.kleemann.hybrid_chess.socket.WebSocketController;
 import org.springframework.http.HttpStatus;
@@ -30,11 +27,47 @@ class ChessController {
         this.webSocketController = webSocketController;
     }
 
-    @GetMapping("")
+    @GetMapping("/1")
     public ResponseEntity<String> getInfo() {
-        webSocketController.sendMessageToFrontend();
-        return new ResponseEntity<>("Called API /api", HttpStatus.OK);
+        makeDummyMove(5, 1, 5, 2);
+        return new ResponseEntity<>("makeDummyMove(5, 1, 5, 2);", HttpStatus.OK);
     }
+
+    @GetMapping("/2")
+    public ResponseEntity<String> getInfo2() {
+        makeDummyMove(6, 1, 6, 3);
+        return new ResponseEntity<>("makeDummyMove(6, 1, 6, 3);", HttpStatus.OK);
+    }
+
+    @GetMapping("/3")
+    public ResponseEntity<String> getInfo3() {
+        makeDummyMove(0, 1, 0, 3);
+        return new ResponseEntity<>("makeDummyMove(0, 1, 0, 3);", HttpStatus.OK);
+    }
+
+    private void makeDummyMove(int fromX, int fromY, int toX, int toY) {
+        ChessGame latestChessGame = chessService.findLatestChessGame();
+        latestChessGame.loadChessBoard();
+        int latestGameId = latestChessGame.getId();
+        System.err.println("FOUNT LATEST CHESS GAME WITH ID: " + latestGameId);
+        ResponseEntity<ChessGame> updatedChessGame = updateChessGame(latestGameId, new UpdateGameModel(latestGameId, new Player("BACKEND", Color.BLACK),
+                new Move(new Position(fromY, fromX, null), new Position(toY, toX, null))));
+        if(updatedChessGame.getStatusCode() == HttpStatus.OK) {
+            if(updatedChessGame.getBody() != null) {
+                System.err.println("SIZE UPDATED CHESS GAME = " + updatedChessGame.getBody().getMoves().size());
+                System.err.println("SIZE LATEST CHESS GAME = " + latestChessGame.getMoves().size());
+                if(updatedChessGame.getBody().getMoves().size() == latestChessGame.getMoves().size()) {
+                    System.err.println("BOARD HAS NOT CHANGED YET!");
+                } else {
+                    System.err.println("BOARD HAS CHANGED!");
+                    webSocketController.sendMessageToFrontend();
+                }
+            } else {
+                System.err.println("Error updating chess game");
+            }
+        }
+    }
+
 
     /**
      * Parameter:

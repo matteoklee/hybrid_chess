@@ -13,6 +13,14 @@ public class UpdateGameModel {
     @JsonProperty
     private Move move;
 
+    public UpdateGameModel() {
+
+    }
+    public UpdateGameModel(int id, Player whoIsPlaying, Move move) {
+        this.id = id;
+        this.whoIsPlaying = whoIsPlaying;
+        this.move = move;
+    }
 
     public int getId() {
         return id;

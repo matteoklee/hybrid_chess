@@ -16,8 +16,8 @@ public class HybridChessApplication implements WebMvcConfigurer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(HybridChessApplication.class, args);
 
-        HardwareController hardwareController = HardwareController.getInstance();
-        hardwareController.addListener(new HardwareControllerListener());
+        //HardwareController hardwareController = HardwareController.getInstance();
+        //hardwareController.addListener(new HardwareControllerListener());
 
         System.out.println("[HybridChess] Backend successfully started.");
 
