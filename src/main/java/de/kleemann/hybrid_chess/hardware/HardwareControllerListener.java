@@ -1,8 +1,5 @@
 package de.kleemann.hybrid_chess.hardware;
 
-import de.fabiansiemens.hardwarecontroller.HardwareController;
-import de.fabiansiemens.hardwarecontroller.HardwareListener;
-
 import java.util.ArrayList;
 
 public class HardwareControllerListener implements HardwareListener {
